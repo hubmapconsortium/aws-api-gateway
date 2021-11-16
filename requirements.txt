@@ -1,0 +1,2 @@
+Flask==1.1.2
+git+git://github.com/hubmapconsortium/commons.git@master#egg=hubmap-commons
