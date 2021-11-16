@@ -43,7 +43,7 @@ def lambda_handler(event, context):
     logger.debug("Method ARN: " + method_arn)
 
     # The principal user identifier associated with the token
-    principal_id = "user|a1b2c3d4"
+    principal_id = "default_user|a1b2c3d4"
 
     # you can send a 401 Unauthorized response to the client by failing like so:
     #raise Exception('Unauthorized')
@@ -57,10 +57,16 @@ def lambda_handler(event, context):
     
     effect = 'Deny'
     try:
-        if api_access_allowed(token, HUBMAP_READ_GROUP_UUID):
+        status_code = api_access_allowed(token, HUBMAP_READ_GROUP_UUID)
+        
+        logger.debug(f'Resulting status code: {status_code}')
+        if status_code == 200:
+            # Get the principal user identifier associated with the token
+            principal_id = get_user_sub(token)
             effect = 'Allow'
-    except Exception:
-        raise Exception('Unauthorized')
+    except Exception as e:
+        logger.exception(e)
+        raise Exception(e)
         
     policy = AuthPolicy(principal_id, effect, method_arn)
 
@@ -85,20 +91,32 @@ def lambda_handler(event, context):
     return authResponse
 
 #=========================================================================
+
 # Check if access to the given endpoint item is allowed
 # Also check if the globus token associated user is a member of the specified group associated with the endpoint item
 def api_access_allowed(token, target_group_uuid):
-    # Check if using modified version of the globus app secret as internal token
-    if is_secrect_token(token):
-        return True
-
+    # Returns one of the following codes
+    ok = 200
+    unauthorized = 401
+    forbidden = 403
+ 
     try:
-        if user_belongs_to_target_group(token, target_group_uuid):
-            return True
-    except Exception:
-        raise Exception('Unauthorized')
-    
-    return False
+        # Check if using modified version of the globus app secret as internal token
+        if is_secrect_token(token):
+            return ok
+        
+        # Make sure the given token is valid
+        if is_valid_token(token):
+            # Further validate the group
+                if user_belongs_to_target_group(token, target_group_uuid):
+                    return ok
+                
+                return forbidden
+            
+        return unauthorized
+    except Exception as e:
+            logger.exception(e)
+            raise
     
 
 # Always pass through the requests with using modified version of the globus app secret as internal token
@@ -111,17 +129,69 @@ def is_secrect_token(token):
     return False
 
 
+# Validate the provided token
+def is_valid_token(token):
+    # Check if the parased token is invalid or expired
+    # Set the second paremeter as False to skip groups check
+    user_info_dict = auth_helper_instance.getUserInfo(token, False)
+
+    if isinstance(user_info_dict, Response):
+        msg = user_info_dict.get_data().decode()
+        # Log the full stack trace, prepend a line with our message
+        logger.exception(msg)
+
+        return False
+    
+    return True
+
+
+"""
+    A dict containing all the user info
+    {
+        "scope": "urn:globus:auth:scope:nexus.api.globus.org:groups",
+        "name": "First Last",
+        "iss": "https://auth.globus.org",
+        "client_id": "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114",
+        "active": True,
+        "nbf": 1603761442,
+        "token_type": "Bearer",
+        "aud": ["nexus.api.globus.org", "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114"],
+        "iat": 1603761442,
+        "dependent_tokens_cache_id": "af2d5979090a97536619e8fbad1ebd0afa875c880a0d8058cddf510fc288555c",
+        "exp": 1603934242,
+        "sub": "c0f8907a-ec78-48a7-9c85-7da995b05446",
+        "email": "email@pitt.edu",
+        "username": "username@pitt.edu",
+        "hmscopes": ["urn:globus:auth:scope:nexus.api.globus.org:groups"],
+    }
+"""
+def get_user_sub(token):
+    # Check if the parased token is invalid or expired
+    # Set the second paremeter as False to skip groups check
+    user_info_dict = auth_helper_instance.getUserInfo(token, False)
+
+    if isinstance(user_info_dict, Response):
+        msg = user_info_dict.get_data().decode()
+        # Log the full stack trace, prepend a line with our message
+        logger.exception(msg)
+
+        return False
+    
+    return user_info_dict['sub']
+    
+    
 # Check if the user belongs to the target Globus group
 def user_belongs_to_target_group(token, target_group_uuid):
     # The second argument indicates to get the groups information
     user_info_dict = auth_helper_instance.getUserInfo(token, True)
 
+    # Validate token again in case it has become invalid or expired
     if isinstance(user_info_dict, Response):
-        msg = "The given token is expired or invalid"
+        msg = user_info_dict.get_data().decode()
         # Log the full stack trace, prepend a line with our message
         logger.exception(msg)
 
-        raise Exception('Unauthorized')
+        return False
 
     # Use the new key rather than the 'hmgroupids' which will be deprecated
     # 'group_membership_ids' is available only from test-release branch of commons
@@ -136,6 +206,9 @@ def user_belongs_to_target_group(token, target_group_uuid):
 
 #=========================================================================
 
+# https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html
+# A Lambda authorizer function's output is a dictionary-like object, which must include 
+# the principal identifier (principalId) and a policy document (policyDocument) containing a list of policy statements.
 class AuthPolicy(object):
     # The principal used for the policy, this should be a unique identifier for the end user
     principal_id = ""
