@@ -21,6 +21,9 @@ GLOBUS_APP_CLIENT_ID = os.environ['GLOBUS_APP_CLIENT_ID']
 GLOBUS_APP_CLIENT_SECRET = os.environ['GLOBUS_APP_CLIENT_SECRET']
 HUBMAP_READ_GROUP_UUID = os.environ['HUBMAP_READ_GROUP_UUID']
 
+# For testing with HuBMAP-Data-Curator group
+HUBMAP_READ_GROUP_UUID = '75804b96-d4a8-11e9-9da9-0ad4acb67ed4'
+
 # Initialize AuthHelper class and ensure singleton
 try:
     if AuthHelper.isInitialized() == False:
@@ -65,6 +68,8 @@ def lambda_handler(event, context):
         else:
             user_info_dict = get_user_info(token)
             
+            logger.debug(f'User info: {user_info_dict}')
+            
             # The user_info_dict is a str when the token is invalid or expired
             # Otherwise it's a dict on success
             if isinstance(user_info_dict, dict):
@@ -76,11 +81,18 @@ def lambda_handler(event, context):
                 #user_group_ids = user_info_dict['group_membership_ids']
                 user_group_ids = user_info_dict['hmgroupids']
                 
+                logger.debug(f'User groups: {user_group_ids}')
+                
                 if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
                     effect = 'Allow'
                 else:
-                    raise Exception('Forbidden')
+                    logger.exception('User token is not associated with the correct globus group')
+                    
+                    raise Exception('Unauthorized')
             else:
+                # In this case user_info_dict is the error message str
+                logger.exception(user_info_dict)
+                
                 raise Exception('Unauthorized')
     except Exception as e:
         logger.exception(e)
@@ -140,7 +152,7 @@ def is_secrect_token(token):
     }
 """
 def get_user_info(token):
-     # The second argument indicates to get the groups information
+    # The second argument indicates to get the groups information
     user_info_dict = auth_helper_instance.getUserInfo(token, True)
 
     # The token is invalid or expired when its type is flask.Response
