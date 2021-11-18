@@ -36,106 +36,158 @@ except Exception:
 
 
 def lambda_handler(event, context):
+    # 'authorizationToken' and 'methodArn' are specific to the API Gateway Authorizer lambda function
     token = event['authorizationToken']
     method_arn = event['methodArn']
     
     logger.debug("Client token: " + token)
     logger.debug("Method ARN: " + method_arn)
 
-    # The principal user identifier associated with the token
-    principal_id = "user|a1b2c3d4"
+    # Default principal user identifier to be used
+    principal_id = "default_user|a1b2c3d4"
+    
+    # Default policy effect
+    effect = 'Deny'
+    
+    # The value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
+    context_authorizer_key_value = 'Unauthorized'
 
     # you can send a 401 Unauthorized response to the client by failing like so:
     #raise Exception('Unauthorized')
 
-    # if the token is valid, a policy must be generated which will allow or deny access to the client
-    # depending on your use case, you might store policies in a DB, or generate them on the fly
-    # if access is denied, the client will recieve a 403 Access Denied response
+    # If the token is valid, a policy (generated on the fly) must be generated which will allow or deny access to the client
+    # If access is denied, the client will recieve a 403 Forbidden response
     # if access is allowed, API Gateway will proceed with the backend integration configured on the method that was called
-    # keep in mind, the policy is cached for 5 minutes by default (TTL is configurable in the authorizer)
-    # and will apply to subsequent calls to any method/resource in the RestApi made with the same token
+    # Keep in mind, the policy is cached for 5 minutes by default (TTL is configurable in API Gateway -> Authorizer)
+    # and will apply to subsequent calls to any method/resource in the REST API made with the same token
     
-    effect = 'Deny'
     try:
-        if api_access_allowed(token, HUBMAP_DATA_ADMIN_GROUP_UUID):
+        # Check if using modified version of the globus app secret as internal token
+        if is_secrect_token(token):
             effect = 'Allow'
-    except Exception:
-        raise Exception('Unauthorized')
+        else:
+            user_info_dict = get_user_info(token)
+            
+            logger.debug(f'=======User info=======: {user_info_dict}')
+            
+            # The user_info_dict is a message str from commons when the token is invalid or expired
+            # Otherwise it's a dict on success
+            if isinstance(user_info_dict, dict):
+                principal_id = user_info_dict['sub']
+                
+                # Further check if the user belongs to the right group membership
+                # Use the new key rather than the 'hmgroupids' which will be deprecated
+                # 'group_membership_ids' is available only from test-release branch of commons
+                #user_group_ids = user_info_dict['group_membership_ids']
+                user_group_ids = user_info_dict['hmgroupids']
+                
+                logger.debug(f'=======User groups=======: {user_group_ids}')
+                
+                if user_belongs_to_target_group(user_group_ids, HUBMAP_DATA_ADMIN_GROUP_UUID):
+                    effect = 'Allow'
+                else:
+                    context_authorizer_key_value = 'User token is not associated with the correct globus group'
+            else:
+                # We use this message in the custom 401 response template
+                context_authorizer_key_value = user_info_dict
+    except Exception as e:
+        logger.exception(e)
+        
+        raise Exception(e)
+        
+    logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
         
     policy = AuthPolicy(principal_id, effect, method_arn)
 
     # Finally, build the policy
     authResponse = policy.build()
  
-    """ Commented out for now
-    # new! -- add additional key-value pairs associated with the authenticated principal
-    # these are made available by APIGW like so: $context.authorizer.<key>
+    # Add additional key-value pairs associated with the authenticated principal
+    # these are made available by API Gateway Responses template with custom 401 and 403 body:
+    # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
     # additional context is cached
     context = {
-        'key': 'value', # $context.authorizer.key -> value
+        'key': context_authorizer_key_value, # $context.authorizer.key -> value
         'number' : 1,
         'bool' : True
     }
-    # context['arr'] = ['foo'] <- this is invalid, APIGW will not accept it
-    # context['obj'] = {'foo':'bar'} <- also invalid
- 
+
+    # Add the context info to the policy
     authResponse['context'] = context
-    """
     
     return authResponse
 
-#=========================================================================
-# Check if access to the given endpoint item is allowed
-# Also check if the globus token associated user is a member of the specified group associated with the endpoint item
-def api_access_allowed(token, target_group_uuid):
-    # Check if using modified version of the globus app secret as internal token
-    if is_secrect_token(token):
-        return True
-
-    try:
-        if user_belongs_to_target_group(token, target_group_uuid):
-            return True
-    except Exception:
-        raise Exception('Unauthorized')
-    
-    return False
-    
 
 # Always pass through the requests with using modified version of the globus app secret as internal token
 def is_secrect_token(token):
+    result = False
+    
     secrect_token = auth_helper_instance.getProcessSecret()
 
     if token == secrect_token:
-        return True
+        result = True
 
-    return False
+    logger.debug(f'=======is_secrect_token() result=======: {result}')
+    
+    return result
 
 
-# Check if the user belongs to the target Globus group
-def user_belongs_to_target_group(token, target_group_uuid):
+"""
+    A dict containing all the user info
+    {
+        "scope": "urn:globus:auth:scope:nexus.api.globus.org:groups",
+        "name": "First Last",
+        "iss": "https://auth.globus.org",
+        "client_id": "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114",
+        "active": True,
+        "nbf": 1603761442,
+        "token_type": "Bearer",
+        "aud": ["nexus.api.globus.org", "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114"],
+        "iat": 1603761442,
+        "dependent_tokens_cache_id": "af2d5979090a97536619e8fbad1ebd0afa875c880a0d8058cddf510fc288555c",
+        "exp": 1603934242,
+        "sub": "c0f8907a-ec78-48a7-9c85-7da995b05446",
+        "email": "email@pitt.edu",
+        "username": "username@pitt.edu",
+        "hmscopes": ["urn:globus:auth:scope:nexus.api.globus.org:groups"],
+    }
+"""
+def get_user_info(token):
+    result = None
+    
     # The second argument indicates to get the groups information
     user_info_dict = auth_helper_instance.getUserInfo(token, True)
 
+    # The token is invalid or expired when its type is flask.Response
+    # Otherwise a dict gets returned
     if isinstance(user_info_dict, Response):
-        msg = "The given token is expired or invalid"
-        # Log the full stack trace, prepend a line with our message
-        logger.exception(msg)
-
-        raise Exception('Unauthorized')
-
-    # Use the new key rather than the 'hmgroupids' which will be deprecated
-    # 'group_membership_ids' is available only from test-release branch of commons
-    #user_group_ids = user_info_dict['group_membership_ids']
-    user_group_ids = user_info_dict['hmgroupids']
+        # Return the error message instead of the dict
+        result = user_info_dict.get_data().decode()
+    else:
+        result = user_info_dict
+    
+    logger.debug(f'=======get_user_info() result=======: {result}')
+    
+    return result
+    
+ 
+# Check if the user belongs to the target Globus group
+def user_belongs_to_target_group(user_group_ids, target_group_uuid):
+    result = False
     
     for group_id in user_group_ids:
         if group_id == target_group_uuid:
-            return True
+            result = True
+            break
+    
+    logger.debug(f'=======user_belongs_to_target_group() result=======: {result}')
 
-    return False
+    return result
+    
 
-#=========================================================================
-
+# https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html
+# A Lambda authorizer function's output is a dictionary-like object, which must include 
+# the principal identifier (principalId) and a policy document (policyDocument) containing a list of policy statements.
 class AuthPolicy(object):
     # The principal used for the policy, this should be a unique identifier for the end user
     principal_id = ""
@@ -168,4 +220,3 @@ class AuthPolicy(object):
         }
 
         return policy
-
