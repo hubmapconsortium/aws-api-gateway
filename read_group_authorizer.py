@@ -51,6 +51,9 @@ def lambda_handler(event, context):
     
     # Default policy effect
     effect = 'Deny'
+    
+    # The value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
+    context_authorizer_key_value = 'Unauthorized'
 
     # you can send a 401 Unauthorized response to the client by failing like so:
     #raise Exception('Unauthorized')
@@ -68,9 +71,9 @@ def lambda_handler(event, context):
         else:
             user_info_dict = get_user_info(token)
             
-            logger.debug(f'User info: {user_info_dict}')
+            logger.debug(f'=======User info=======: {user_info_dict}')
             
-            # The user_info_dict is a str when the token is invalid or expired
+            # The user_info_dict is a message str from commons when the token is invalid or expired
             # Otherwise it's a dict on success
             if isinstance(user_info_dict, dict):
                 principal_id = user_info_dict['sub']
@@ -81,54 +84,55 @@ def lambda_handler(event, context):
                 #user_group_ids = user_info_dict['group_membership_ids']
                 user_group_ids = user_info_dict['hmgroupids']
                 
-                logger.debug(f'User groups: {user_group_ids}')
+                logger.debug(f'=======User groups=======: {user_group_ids}')
                 
                 if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
                     effect = 'Allow'
                 else:
-                    logger.exception('User token is not associated with the correct globus group')
-                    
-                    raise Exception('Unauthorized')
+                    context_authorizer_key_value = 'User token is not associated with the correct globus group'
             else:
-                # In this case user_info_dict is the error message str
-                logger.exception(user_info_dict)
-                
-                raise Exception('Unauthorized')
+                # We use this message in the custom 401 response template
+                context_authorizer_key_value = user_info_dict
     except Exception as e:
         logger.exception(e)
+        
         raise Exception(e)
+        
+    logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
         
     policy = AuthPolicy(principal_id, effect, method_arn)
 
     # Finally, build the policy
     authResponse = policy.build()
  
-    """ Commented out for now
-    # new! -- add additional key-value pairs associated with the authenticated principal
-    # these are made available by APIGW like so: $context.authorizer.<key>
+    # Add additional key-value pairs associated with the authenticated principal
+    # these are made available by API Gateway Responses template with custom 401 and 403 body:
+    # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
     # additional context is cached
     context = {
-        'key': 'value', # $context.authorizer.key -> value
+        'key': context_authorizer_key_value, # $context.authorizer.key -> value
         'number' : 1,
         'bool' : True
     }
-    # context['arr'] = ['foo'] <- this is invalid, APIGW will not accept it
-    # context['obj'] = {'foo':'bar'} <- also invalid
- 
+
+    # Add the context info to the policy
     authResponse['context'] = context
-    """
     
     return authResponse
 
 
 # Always pass through the requests with using modified version of the globus app secret as internal token
 def is_secrect_token(token):
+    result = False
+    
     secrect_token = auth_helper_instance.getProcessSecret()
 
     if token == secrect_token:
-        return True
+        result = True
 
-    return False
+    logger.debug(f'=======is_secrect_token() result=======: {result}')
+    
+    return result
 
 
 """
@@ -152,29 +156,36 @@ def is_secrect_token(token):
     }
 """
 def get_user_info(token):
+    result = None
+    
     # The second argument indicates to get the groups information
     user_info_dict = auth_helper_instance.getUserInfo(token, True)
 
     # The token is invalid or expired when its type is flask.Response
     # Otherwise a dict gets returned
     if isinstance(user_info_dict, Response):
-        msg = user_info_dict.get_data().decode()
-        # Log the full stack trace, prepend a line with our message
-        logger.exception(msg)
-
         # Return the error message instead of the dict
-        return msg
+        result = user_info_dict.get_data().decode()
+    else:
+        result = user_info_dict
     
-    return user_info_dict
+    logger.debug(f'=======get_user_info() result=======: {result}')
+    
+    return result
     
  
 # Check if the user belongs to the target Globus group
 def user_belongs_to_target_group(user_group_ids, target_group_uuid):
+    result = False
+    
     for group_id in user_group_ids:
         if group_id == target_group_uuid:
-            return True
+            result = True
+            break
+    
+    logger.debug(f'=======user_belongs_to_target_group() result=======: {result}')
 
-    return False
+    return result
     
 
 # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html
