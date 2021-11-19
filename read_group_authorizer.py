@@ -79,11 +79,8 @@ def lambda_handler(event, context):
                 principal_id = user_info_dict['sub']
                 
                 # Further check if the user belongs to the right group membership
-                # Use the new key rather than the 'hmgroupids' which will be deprecated
-                # 'group_membership_ids' is available only from test-release branch of commons
-                #user_group_ids = user_info_dict['group_membership_ids']
-                user_group_ids = user_info_dict['hmgroupids']
-                
+                user_group_ids = user_info_dict['group_membership_ids']
+ 
                 logger.debug(f'=======User groups=======: {user_group_ids}')
                 
                 if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
