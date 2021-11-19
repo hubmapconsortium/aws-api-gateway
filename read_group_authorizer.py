@@ -52,8 +52,8 @@ def lambda_handler(event, context):
     # Default policy effect
     effect = 'Deny'
     
-    # The value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
-    context_authorizer_key_value = 'Unauthorized'
+    # The string value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
+    context_authorizer_key_value = ''
 
     # you can send a 401 Unauthorized response to the client by failing like so:
     #raise Exception('Unauthorized')
@@ -80,7 +80,7 @@ def lambda_handler(event, context):
                 
                 # Further check if the user belongs to the right group membership
                 user_group_ids = user_info_dict['group_membership_ids']
- 
+  
                 logger.debug(f'=======User groups=======: {user_group_ids}')
                 
                 if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
@@ -102,7 +102,7 @@ def lambda_handler(event, context):
     logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
     
     # Only use the context variable for authorizer when there's 401/403 response
-    if context_authorizer_key_value is not None:
+    if context_authorizer_key_value:
         # Add additional key-value pairs associated with the authenticated principal
         # these are made available by API Gateway Responses template with custom 401 and 403 body:
         # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
@@ -116,6 +116,8 @@ def lambda_handler(event, context):
 
         # Add the context info to the policy
         authResponse['context'] = context
+        
+    logger.debug(f'=======authResponse: {authResponse}')
    
     return authResponse
 
