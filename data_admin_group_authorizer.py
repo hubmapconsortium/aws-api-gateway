@@ -1,5 +1,6 @@
 import os
 import logging
+import requests
 from flask import Response
 
 # # HuBMAP commons
@@ -35,14 +36,9 @@ except Exception:
     logger.exception(msg)
 
 
+# When this lambda function is invoked, it runs this handler method (we use the default name)
+# The function handler name can be changed in the Lambda console, on the Runtime settings pane
 def lambda_handler(event, context):
-    # 'authorizationToken' and 'methodArn' are specific to the API Gateway Authorizer lambda function
-    token = event['authorizationToken']
-    method_arn = event['methodArn']
-    
-    logger.debug("Client token: " + token)
-    logger.debug("Method ARN: " + method_arn)
-
     # Default principal user identifier to be used
     principal_id = "default_user|a1b2c3d4"
     
@@ -51,47 +47,65 @@ def lambda_handler(event, context):
     
     # The string value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
     context_authorizer_key_value = ''
-
-    # you can send a 401 Unauthorized response to the client by failing like so:
-    #raise Exception('Unauthorized')
-
-    # If the token is valid, a policy (generated on the fly) must be generated which will allow or deny access to the client
-    # If access is denied, the client will recieve a 403 Forbidden response
-    # if access is allowed, API Gateway will proceed with the backend integration configured on the method that was called
-    # Keep in mind, the policy is cached for 5 minutes by default (TTL is configurable in API Gateway -> Authorizer)
-    # and will apply to subsequent calls to any method/resource in the REST API made with the same token
     
-    try:
-        # Check if using modified version of the globus app secret as internal token
-        if is_secrect_token(token):
-            effect = 'Allow'
-        else:
-            user_info_dict = get_user_info(token)
-            
-            logger.debug(f'=======User info=======: {user_info_dict}')
-            
-            # The user_info_dict is a message str from commons when the token is invalid or expired
-            # Otherwise it's a dict on success
-            if isinstance(user_info_dict, dict):
-                principal_id = user_info_dict['sub']
-                
-                # Further check if the user belongs to the right group membership
-                user_group_ids = user_info_dict['group_membership_ids']
-                
-                logger.debug(f'=======User groups=======: {user_group_ids}')
-                
-                if user_belongs_to_target_group(user_group_ids, HUBMAP_DATA_ADMIN_GROUP_UUID):
-                    effect = 'Allow'
-                else:
-                    context_authorizer_key_value = 'User token is not associated with the correct globus group'
+    # 'authorizationToken' and 'methodArn' are specific to the API Gateway Authorizer lambda function
+    auth_header_value = event['authorizationToken']
+    method_arn = event['methodArn']
+    
+    logger.debug("Incoming authorizationToken: " + auth_header_value)
+    logger.debug("Incoming methodArn: " + method_arn)
+    
+    # A bit validation on the header value
+    if not auth_header_value:
+        context_authorizer_key_value = 'Empty value of Authorization header'
+    elif not auth_header_value.upper().startswith('BEARER '):
+        context_authorizer_key_value = 'Missing Bearer scheme in Authorization header value'
+    else:
+        # Parse the actual globus token
+        token = auth_header_value[6:].strip()
+        
+        logger.debug("Parsed Globus token: " + token)
+    
+        # you can send a 401 Unauthorized response to the client by failing like so:
+        #raise Exception('Unauthorized')
+    
+        # If the token is valid, a policy (generated on the fly) must be generated which will allow or deny access to the client
+        # If access is denied, the client will recieve a 403 Forbidden response
+        # if access is allowed, API Gateway will proceed with the backend integration configured on the method that was called
+        # Keep in mind, the policy is cached for 5 minutes by default (TTL is configurable in API Gateway -> Authorizer)
+        # and will apply to subsequent calls to any method/resource in the REST API made with the same token
+        
+        try:
+            # Check if using modified version of the globus app secret as internal token
+            if is_secrect_token(token):
+                effect = 'Allow'
             else:
-                # We use this message in the custom 401 response template
-                context_authorizer_key_value = user_info_dict
-    except Exception as e:
-        logger.exception(e)
-        
-        raise Exception(e)
-        
+                user_info_dict = get_user_info(token)
+                
+                logger.debug(f'=======User info=======: {user_info_dict}')
+                
+                # The user_info_dict is a message str from commons when the token is invalid or expired
+                # Otherwise it's a dict on success
+                if isinstance(user_info_dict, dict):
+                    principal_id = user_info_dict['sub']
+                    
+                    # Further check if the user belongs to the right group membership
+                    user_group_ids = user_info_dict['group_membership_ids']
+      
+                    logger.debug(f'=======User groups=======: {user_group_ids}')
+                    
+                    if user_belongs_to_target_group(user_group_ids, HUBMAP_DATA_ADMIN_GROUP_UUID):
+                        effect = 'Allow'
+                    else:
+                        context_authorizer_key_value = 'User token is not associated with the correct globus group'
+                else:
+                    # We use this message in the custom 401 response template
+                    context_authorizer_key_value = user_info_dict
+        except Exception as e:
+            logger.exception(e)
+            
+            raise Exception(e)
+            
     # Finally, build the policy
     policy = AuthPolicy(principal_id, effect, method_arn)
     authResponse = policy.build()
@@ -113,13 +127,25 @@ def lambda_handler(event, context):
 
         # Add the context info to the policy
         authResponse['context'] = context
-   
+        
     logger.debug(f'=======authResponse: {authResponse}')
-    
+   
     return authResponse
 
 
-# Always pass through the requests with using modified version of the globus app secret as internal token
+"""
+Always pass through the requests with using modified version of the globus app secret as internal token
+
+Parameters
+----------
+token : str
+    The process token based off globus app secret
+
+Returns
+-------
+bool
+    True if the given token is the secret internal token, otherwise False
+"""
 def is_secrect_token(token):
     result = False
     
@@ -134,23 +160,53 @@ def is_secrect_token(token):
 
 
 """
-    A dict containing all the user info
+User info introspection based on the given globus token
+
+Parameters
+----------
+token : str
+    The parased globus token
+
+Returns
+-------
+dict or str
+    A dict based on the following JSON result of user info on sucess,
+    Othereise, an error message if token is invalid or expired
+    
     {
-        "scope": "urn:globus:auth:scope:nexus.api.globus.org:groups",
-        "name": "First Last",
-        "iss": "https://auth.globus.org",
-        "client_id": "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114",
-        "active": True,
-        "nbf": 1603761442,
-        "token_type": "Bearer",
-        "aud": ["nexus.api.globus.org", "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114"],
-        "iat": 1603761442,
-        "dependent_tokens_cache_id": "af2d5979090a97536619e8fbad1ebd0afa875c880a0d8058cddf510fc288555c",
-        "exp": 1603934242,
-        "sub": "c0f8907a-ec78-48a7-9c85-7da995b05446",
-        "email": "email@pitt.edu",
-        "username": "username@pitt.edu",
-        "hmscopes": ["urn:globus:auth:scope:nexus.api.globus.org:groups"],
+       "active":true,
+       "token_type":"Bearer",
+       "scope":"urn:globus:auth:scope:nexus.api.globus.org:groups",
+       "client_id":"21f293b0-5fa5-4ee1-9e0e-3cf88bd70114",
+       "username":"zhy19@pitt.edu",
+       "name":"Zhou Yuan",
+       "email":"ZHY19@pitt.edu",
+       "exp":1637513092,
+       "iat":1637340292,
+       "nbf":1637340292,
+       "sub":"c0f8907a-ec78-48a7-9c85-7da995b05446",
+       "aud":[
+          "nexus.api.globus.org",
+          "21f293b0-5fa5-4ee1-9e0e-3cf88bd70114"
+       ],
+       "iss":"https://auth.globus.org",
+       "dependent_tokens_cache_id":"af2d5979090a97536619e8fbad1ebd0afa875c880a0d8058cddf510fc288555c",
+       "hmgroupids":[
+          "177f92c0-c871-11eb-9a04-a9c8d5e16226",
+          "89a69625-99d7-11ea-9366-0e98982705c1",
+          "5777527e-ec11-11e8-ab41-0af86edb4424",
+          "5bd084c8-edc2-11e8-802f-0e368f3075e8"
+       ],
+       "group_membership_ids":[
+          "177f92c0-c871-11eb-9a04-a9c8d5e16226",
+          "89a69625-99d7-11ea-9366-0e98982705c1",
+          "5777527e-ec11-11e8-ab41-0af86edb4424",
+          "5bd084c8-edc2-11e8-802f-0e368f3075e8"
+       ],
+       "hmroleids":[],
+       "hmscopes":[
+          "urn:globus:auth:scope:nexus.api.globus.org:groups"
+       ]
     }
 """
 def get_user_info(token):
@@ -158,6 +214,8 @@ def get_user_info(token):
     
     # The second argument indicates to get the groups information
     user_info_dict = auth_helper_instance.getUserInfo(token, True)
+    
+    logger.debug(f'=======get_user_info() user_info_dict=======: {user_info_dict}')
 
     # The token is invalid or expired when its type is flask.Response
     # Otherwise a dict gets returned
@@ -172,7 +230,22 @@ def get_user_info(token):
     return result
     
  
-# Check if the user belongs to the target Globus group
+"""
+Check if the user belongs to the target Globus group
+
+Parameters
+----------
+user_group_ids : list
+    A list of groups uuids associated with this token
+
+target_group_uuid : str
+    The uuid of target group
+    
+Returns
+-------
+bool
+    True if the given token belongs to the given group, otherwise False
+"""
 def user_belongs_to_target_group(user_group_ids, target_group_uuid):
     result = False
     
@@ -221,3 +294,4 @@ class AuthPolicy(object):
         }
 
         return policy
+
