@@ -47,7 +47,8 @@ def lambda_handler(event, context):
     # Default policy effect
     effect = 'Deny'
     
-    # The string value of content key used by API Gateway reponse 401/403 template: {"message": "$context.authorizer.key"}
+    # The string value of $context.authorizer.key used by API Gateway reponse 401/403 template:
+    # { "message": "$context.error.message", "hint": "$context.authorizer.key" }
     context_authorizer_key_value = ''
     
     # 'authorizationToken' and 'methodArn' are specific to the API Gateway Authorizer lambda function
@@ -99,7 +100,7 @@ def lambda_handler(event, context):
                     if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
                         effect = 'Allow'
                     else:
-                        context_authorizer_key_value = 'User token is not associated with the correct globus group'
+                        context_authorizer_key_value = 'User token is not associated with the required globus group'
                 else:
                     # We use this message in the custom 401 response template
                     context_authorizer_key_value = user_info_dict
@@ -117,9 +118,8 @@ def lambda_handler(event, context):
     # Only use the context variable for authorizer when there's 401/403 response
     if context_authorizer_key_value:
         # Add additional key-value pairs associated with the authenticated principal
-        # these are made available by API Gateway Responses template with custom 401 and 403 body:
-        # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
-        # additional context is cached
+        # these are made available by API Gateway Responses template with custom 401 and 403 template:
+        # { "message": "$context.error.message", "hint": "$context.authorizer.key" } (must be quoted to be valid json object)
         context = {
             'key': context_authorizer_key_value, # $context.authorizer.key -> value
             # numberKey and boolKey are not being used currently
