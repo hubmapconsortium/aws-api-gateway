@@ -95,26 +95,28 @@ def lambda_handler(event, context):
         
         raise Exception(e)
         
-    logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
-        
-    policy = AuthPolicy(principal_id, effect, method_arn)
-
     # Finally, build the policy
+    policy = AuthPolicy(principal_id, effect, method_arn)
     authResponse = policy.build()
- 
-    # Add additional key-value pairs associated with the authenticated principal
-    # these are made available by API Gateway Responses template with custom 401 and 403 body:
-    # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
-    # additional context is cached
-    context = {
-        'key': context_authorizer_key_value, # $context.authorizer.key -> value
-        'number' : 1,
-        'bool' : True
-    }
-
-    # Add the context info to the policy
-    authResponse['context'] = context
     
+    logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
+    
+    # Only use the context variable for authorizer when there's 401/403 response
+    if context_authorizer_key_value is not None:
+        # Add additional key-value pairs associated with the authenticated principal
+        # these are made available by API Gateway Responses template with custom 401 and 403 body:
+        # {"message": "$context.authorizer.key"} (must be quoted to be a valid json value in response body)
+        # additional context is cached
+        context = {
+            'key': context_authorizer_key_value, # $context.authorizer.key -> value
+            # numberKey and boolKey are not being used currently
+            'numberKey' : 1,
+            'boolKey' : True
+        }
+
+        # Add the context info to the policy
+        authResponse['context'] = context
+   
     return authResponse
 
 
