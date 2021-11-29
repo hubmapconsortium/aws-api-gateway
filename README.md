@@ -16,7 +16,12 @@ Next, in AWS console create a new layer in AWS Lambda and upload this zip archiv
 The variable `$context.authorizer.key` is made available in the authorizer lambda function to send back more detailed information. And In Gateway Responses pane, we use the following template to transform the body before returning to the client for only 401 and 403 responses:
 
 ```
-{ "message": "$context.error.message", "hint": "$context.authorizer.key" }
+{
+  "message": "$context.error.message",
+  "hint": "$context.authorizer.key",
+  "resource_id": "$context.resourceId",
+  "http_method": "$context.httpMethod"
+}
 ```
 
 Note: when the `Authorization` header is not present from the request, it seems AWS API Gateway just returns 401 with the `$context.error.message` being "Unauthorized" and the authorizer lambda function never gets called. Thus why `$context.authorizer.key` is not set.
