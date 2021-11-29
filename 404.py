@@ -4,7 +4,10 @@ import json
 # - Add an `ANY` method to the root API that proxy's to this Lambda
 # - Add a `/{proxy+}/ANY` method to the root API that proxy's to this Lambda
 def lambda_handler(event, context):
+    response_body = {
+        'message': 'Not Found'
+    }
     return {
         'statusCode': 404,
-        'body': json.dumps('Not Found')
+        'body': json.dumps(response_body)
     }
