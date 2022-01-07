@@ -25,7 +25,9 @@ pip install -r requirements.txt --target python
 zip -r python.zip python
 ```
 
-Next, in AWS console create a new layer in AWS Lambda and upload this zip archive with selecting x86_64 architecture and Python3.9 runtime (the dependencies are installed under Python3.9.2 on my local), and then add this custom layer to each of the authorizer lambda functions.
+Next, in AWS console create a new layer in AWS Lambda and upload this zip archive with selecting `x86_64 architecture` and `Python3.9` runtime (the dependencies are installed under Python3.9.2 on my local), and then add this custom layer to each of the authorizer lambda functions.
+
+When the dependencies get updated, recreate the .zip archive and upload to the AWS lambda layer as a new version. Will also need to specify this new layer version for each lambda function that uses it.
 
 ## Custom 401 and 403 response template
 
