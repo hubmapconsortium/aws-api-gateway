@@ -8,7 +8,7 @@
 - Attach the security group to the target group's EC2 instance so the NLB is allowed to access the target EC2 instance on those defined ports
 - Create a "VPC Link for REST APIs" for each deployment stage and link to the corresponding NLB
 - Import target API's openapi specification yaml file to AWS API Gateway
-- Enable CORS for each resource
+- Enable CORS via OPTIONS method for each resource instead of using API Gateway's CORS option
 - Choose VPC Link integration for each resource's method, check "Use Proxy Integration" and choose "Use stage variables" with value of `${stageVariables.VPCLINK}`, also use stage variable to define Endpoint URL, example:
 `http://${stageVariables.VPCNLB}/ancestors/{id}`
 - For each deployed stage, set the two stage variables: `VPCLINK` (the generated ID of the VPC Link created earlier) and `VPCNLB` (the DNS of NLB with the target group port, e.g., `NLB-STAGE-4fc5be9e0b9f2bd6.elb.us-east-1.amazonaws.com:3333`)
