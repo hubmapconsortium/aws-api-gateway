@@ -21,9 +21,6 @@ GLOBUS_APP_CLIENT_ID = os.environ['GLOBUS_APP_CLIENT_ID']
 GLOBUS_APP_CLIENT_SECRET = os.environ['GLOBUS_APP_CLIENT_SECRET']
 HUBMAP_READ_GROUP_UUID = os.environ['HUBMAP_READ_GROUP_UUID']
 
-# For testing with HuBMAP-Data-Curator group
-#HUBMAP_READ_GROUP_UUID = '75804b96-d4a8-11e9-9da9-0ad4acb67ed4'
-
 # Initialize AuthHelper class and ensure singleton
 try:
     if AuthHelper.isInitialized() == False:
