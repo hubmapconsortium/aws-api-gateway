@@ -2,8 +2,8 @@
 
 ## General workflow
 
-- Create a Network Load Balancer (NLB) for each deployment stage (DEV/TEST/STAGE/PROD)
-- For each NLB of the given stage, create a target group per REST API for that stage, define a unique TCP port number to be used to communicate to the EC2 instance
+- Create a Target group per REST API for each deployment stage (DEV/TEST/STAGE/PROD), define a unique TCP port number to be used to communicate to the EC2 instance for each API (TCP 2222 for uuid, 3333 for entity-api, 4444 for search-api)
+- Create an internal Network Load Balancer (NLB) with mappings to all the VPC Availability Zones for each deployment stage and specify TCP listeners for each Target group and the corresponding ports.
 - Create a security group for each NLB, and add the primary private IPv4 of each Availability Zone (can be found under "Network interfaces" of EC2 console)
 - Attach the security group to the target group's EC2 instance so the NLB is allowed to access the target EC2 instance on those defined ports
 - Create a "VPC Link for REST APIs" for each deployment stage and link to the corresponding NLB
