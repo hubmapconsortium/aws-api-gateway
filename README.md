@@ -51,11 +51,10 @@ By default AWS API Gateway returns 403 response on any undefined endpoints inste
 - add a `/{proxy+}/ANY` method to the root API
 - use Lambda Proxy integration with the `404.py` lambda function which simply returning a 404 response on any undefiend endpoints
 
-We'll also use a custom Gateway Response for 404 similar to what we did for 401/403:
+Then the 404 response will be returned to undefined resurces or undefiend method on the resource:
 
 ```
 {
-    "message":$context.error.messageString,
-    "http_method": "$context.httpMethod"
+    "message": "Unable to find the requested resource"
 }
 ```
