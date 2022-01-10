@@ -1,8 +1,15 @@
 # HuBMAP AWS API Gateway
 
-## General workflow
+## General request route
 
-- Create a Target group per REST API for each deployment stage (DEV/TEST/STAGE/PROD), define a unique TCP port number to be used to communicate to the EC2 instance for each API (TCP 2222 for uuid, 3333 for entity-api, 4444 for search-api)
+```
+Client -> Custom domian name -> AWS API Gateway target stage -> Lambda Authorizer -> 
+NLB of the target stage via Proxy integration (VPC Link) -> Target Group and TCP port -> REST API endpoint
+```
+
+## General implementation workflow
+
+- Create a Target group per REST API for each deployment stage (DEV/TEST/STAGE/PROD), define a unique TCP port number to be used to communicate to the EC2 instance for each API (currently we use TCP port 2222 for uuid-api, 3333 for entity-api, and 4444 for search-api)
 - Create an internal Network Load Balancer (NLB) with mappings to all the VPC Availability Zones for each deployment stage and specify TCP listeners for each Target group and the corresponding ports.
 - Create a security group for each NLB, and add the primary private IPv4 of each Availability Zone (can be found under "Network interfaces" of EC2 console)
 - Attach the security group to the target group's EC2 instance so the NLB is allowed to access the target EC2 instance on those defined ports
@@ -58,3 +65,10 @@ Then the 404 response will be returned to undefined resurces or undefiend method
     "message": "Unable to find the requested resource"
 }
 ```
+
+## API redeployment
+
+Each API stage created in API Gateway can be linked to a specific deployment, this also allows us to roll back to an earlier deployment. To deploy new API changes:
+
+- update the resource definition and deploy this new version to the target stage (if needed) in API Gateway
+- deploy the backend API changes to the actual EC2 instance
