@@ -36,18 +36,25 @@ The variable `$context.authorizer.key` is made available in the authorizer lambd
 
 ```
 {
-  "message": "$context.error.message",
-  "hint": "$context.authorizer.key",
-  "resource_id": "$context.resourceId",
-  "http_method": "$context.httpMethod"
+    "message": "$context.error.message",
+    "hint": "$context.authorizer.key",
+    "http_method": "$context.httpMethod"
 }
 ```
 
 Note: when the `Authorization` header is not present from the request, it seems AWS API Gateway just returns 401 with the `$context.error.message` being "Unauthorized" and the authorizer lambda function never gets called. Thus why `$context.authorizer.key` is not set.
 
-## Handle undefiend endpoints with 404
+## Handle undefiend resources with 404
 
-By default the API Gateway returns 403 response on any undefined endpoints instead of 404. To solve this issue, we can 
+By default AWS API Gateway returns 403 response on any undefined endpoints instead of 404. To solve this issue, we need to
 - add an `ANY` method to the root API
 - add a `/{proxy+}/ANY` method to the root API
 - use Lambda Proxy integration with the `404.py` lambda function which simply returning a 404 response on any undefiend endpoints
+
+After completing the above, we'll get this response:
+
+```
+{
+    "message": "Unable to find the requested resource"
+}
+```
