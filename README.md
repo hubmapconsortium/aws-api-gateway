@@ -1,11 +1,19 @@
 # HuBMAP AWS API Gateway
 
-## General request route
+## Overview of request route
 
 ```
 Client -> Custom domian name -> AWS API Gateway target stage -> Lambda Authorizer -> 
 NLB of the target stage via Proxy integration (VPC Link) -> Target Group and TCP port -> REST API endpoint
 ```
+
+## Create REST API in AWS API Gateway via import
+
+In AWS API Gateway, a REST API refers to a collection of resources and methods that can be invoked through HTTPS endpoints. The easiest way of creating a new REST API is by importing the OpenAPI v3 specification yaml file.
+
+Note: a valid OpenAPI v3 yaml file that renders correctly in Swagger or SmartAPI editor does not guarantee it's valid to the AWS API Gateway import tool, modifications may be necessary.
+
+Once a REST API is finialized, we can deploy it to a certain stage and export the definition details as "OpenAPI 3 + API Gateway Extensions" yaml, which contians all the integration details and authorizors defined to be used by the resources. This can be used to restore the REST API when needed. So it's a good practice that we always export this yaml for each API PROD release.
 
 ## General implementation workflow
 
