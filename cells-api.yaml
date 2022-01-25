@@ -1,0 +1,980 @@
+openapi: "3.0.1"
+info:
+  title: "HuBMAP Cells API"
+  description: "HuBMAP Cells API"
+  version: "2022-01-24T23:24:05Z"
+servers:
+- url: "https://demo.api.hubmapconsortium.org"
+paths:
+  /api/difference:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/difference/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/difference/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/clusterdetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/clusterdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/clusterdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/bounds:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/bounds/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/bounds/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/gene:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/gene/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/gene/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/proteinevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/proteinevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/proteinevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/status:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "GET"
+        uri: "http://${stageVariables.cellsGatewayBase}/status/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/status/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/intersection:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/intersection/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/intersection/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/protein:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/protein/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/protein/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api:
+    x-amazon-apigateway-any-method:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /api/min:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/min/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/min/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/dataset:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/dataset/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/dataset/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/proteindetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/proteindetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/proteindetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/organevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/organevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/organevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /{proxy+}:
+    x-amazon-apigateway-any-method:
+      parameters:
+      - name: "proxy"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        cacheNamespace: "krsz8k"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /api/clusterevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/clusterevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/clusterevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/stddev:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/stddev/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/stddev/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/cell:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/cell/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/cell/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/{proxy+}:
+    x-amazon-apigateway-any-method:
+      parameters:
+      - name: "proxy"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        cacheNamespace: "v94xb4"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /api/organdetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/organdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/organdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/organ:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/organ/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/organ/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/cellevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/cellevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/cellevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /:
+    x-amazon-apigateway-any-method:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /api/geneevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/geneevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/geneevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/max:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/max/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/max/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/genedetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/genedetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/genedetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/datasetdetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/datasetdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/datasetdetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/union:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/union/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/union/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/cluster:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/cluster/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/cluster/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/celldetailevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/celldetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/celldetailevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/count:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/count/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/count/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /api/datasetevaluation:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "http://${stageVariables.cellsGatewayBase}/datasetevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/datasetevaluation/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"
