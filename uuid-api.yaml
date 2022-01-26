@@ -10,6 +10,7 @@ paths:
   /status:
     get:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -18,9 +19,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -29,7 +30,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /{uuid}:
     x-amazon-apigateway-any-method:
       parameters:
@@ -39,6 +39,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -46,7 +47,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
   /{uuid}/ancestors:
     get:
       parameters:
@@ -56,6 +56,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/{uuid}/ancestors"
@@ -66,7 +67,6 @@ paths:
           integration.request.path.uuid: "method.request.path.uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "uuid"
@@ -75,6 +75,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/{uuid}/ancestors"
@@ -85,7 +86,6 @@ paths:
           integration.request.path.uuid: "method.request.path.uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /{uuid}/{proxy+}:
     x-amazon-apigateway-any-method:
       parameters:
@@ -100,6 +100,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -110,7 +111,6 @@ paths:
         cacheKeyParameters:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
   /file-id/{uuid}:
     get:
       parameters:
@@ -145,6 +145,7 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/file-id"
@@ -157,7 +158,6 @@ paths:
           integration.request.path.uuid: "method.request.path.uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "uuid"
@@ -166,6 +166,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/file-id/{uuid}"
@@ -176,7 +177,6 @@ paths:
           integration.request.path.uuid: "method.request.path.uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /hmuuid/{id}:
     get:
       parameters:
@@ -211,6 +211,7 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/hmuuid/{id}"
@@ -223,7 +224,6 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -232,6 +232,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/hmuuid/{id}"
@@ -242,7 +243,6 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /hmuuid/{id}/exists:
     get:
       parameters:
@@ -274,6 +274,7 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/hmuuid/{id}/exists"
@@ -286,7 +287,6 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -295,6 +295,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/hmuuid/{id}/exists"
@@ -305,7 +306,6 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /hmuuid:
     post:
       parameters:
@@ -338,6 +338,7 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/hmuuid"
@@ -346,10 +347,51 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+  /{uuid}/files:
+    get:
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
         type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/{uuid}/files"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.uuid: "method.request.path.uuid"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/{uuid}/files"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.uuid: "method.request.path.uuid"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
   /:
     get:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -358,9 +400,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -369,9 +411,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
+        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -379,7 +421,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
 components:
   schemas:
     IdObject:
@@ -482,21 +523,21 @@ components:
       in: "header"
       x-amazon-apigateway-authtype: "custom"
       x-amazon-apigateway-authorizer:
+        type: "token"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Read-Group-Authorizer/invocations"
         authorizerResultTtlInSeconds: 0
-        type: "token"
 x-amazon-apigateway-gateway-responses:
-  UNAUTHORIZED:
-    statusCode: 401
-    responseTemplates:
-      application/json: "{ \"message\": \"$context.error.message\", \"hint\": \"$context.authorizer.key\"\
-        , \"http_method\": \"$context.httpMethod\"}"
   RESOURCE_NOT_FOUND:
     statusCode: 404
     responseTemplates:
       application/json: "{\"message\":$context.error.messageString}"
   ACCESS_DENIED:
     statusCode: 403
+    responseTemplates:
+      application/json: "{ \"message\": \"$context.error.message\", \"hint\": \"$context.authorizer.key\"\
+        , \"http_method\": \"$context.httpMethod\"}"
+  UNAUTHORIZED:
+    statusCode: 401
     responseTemplates:
       application/json: "{ \"message\": \"$context.error.message\", \"hint\": \"$context.authorizer.key\"\
         , \"http_method\": \"$context.httpMethod\"}"
