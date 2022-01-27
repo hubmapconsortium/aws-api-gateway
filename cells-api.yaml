@@ -39,6 +39,39 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
+  /api/openapi:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "GET"
+        uri: "http://${stageVariables.cellsGatewayBase}/openapi/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.cellsGatewayBase}/openapi/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
   /api/clusterdetailevaluation:
     post:
       responses:
