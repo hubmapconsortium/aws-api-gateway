@@ -1,6 +1,7 @@
+import os
 import json
-import requests
 import logging
+import requests
 # Don't confuse urllib (Python native library) with urllib3 (3rd-party library, requests also uses urllib3)
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
@@ -19,31 +20,28 @@ logger = logging.getLogger(__name__)
 requests.packages.urllib3.disable_warnings(category = InsecureRequestWarning)
 
 def lambda_handler(event, context):
-    logger.debug(event)
+    # logger.debug(event)
     
     request_method = event['httpMethod'].upper()
     # Remove leading slash if any
     path = event['path'].lstrip('/')
     request_headers = event['headers']
     request_body = event['body']
-    stage = event['requestContext']['stage'].lower()
+    stage = event['requestContext']['stage'].upper()
     
-    # Must no trailing slash
-    base_url = f'https://ingest-api.{stage}.hubmapconsortium.org'
-    if stage == 'prod':
-        base_url = f'https://ingest.api.hubmapconsortium.org'
-        
+    target_api_stage = f'INGEST_API_{stage}'
+
+    # Remove trailing slash in case the environment variable has one
+    base_url = os.environ[target_api_stage].rstrip('/')
     target_url = f'{base_url}/{path}'
     
-    logger.debug(f'Proxy target backend url: {target_url}')
+    logger.debug(f'Proxy target: {request_method} {target_url}')
 
     response = None
     # Disable ssl certificate verification for all requests
     if request_method == 'GET':
         # AWS API Gateway doesn't support request body on GET
         response = requests.get(url = target_url, headers = request_headers, verify = False) 
-    elif request_method == 'OPTIONS':
-        response = requests.options(url = target_url, headers = request_headers, verify = False)
     elif request_method == 'POST':
         response = requests.post(url = target_url, headers = request_headers, data = request_body, verify = False)
     elif request_method == 'PUT':
@@ -54,8 +52,6 @@ def lambda_handler(event, context):
         # Won't ever happen since we have API Gateway?
         logger.error(f'Unsupported HTTP method {request_method}')
         
-    logger.debug(f'Response status code: {response.status_code}')
-    
     return {
         'statusCode': response.status_code,
         'body': response.text
