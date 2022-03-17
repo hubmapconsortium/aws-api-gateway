@@ -103,3 +103,21 @@ Each API stage created in API Gateway can be linked to a specific deployment, th
 
 - update the resource definition and deploy this new version to the target stage (if needed) in API Gateway
 - deploy the backend API changes to the actual EC2 instance
+
+## Access to non-PROD APIs
+
+AWS WAF (Web Application Firewall) is integrated to monitor the HTTP and HTTPS requests that are forwarded to the API Gateway REST APIs. Below is the workflow:
+
+- Create a new WAF web ACL
+- Associate the Web ACL to each API and its target deployment non-PROD stage 
+- Create a new IP Set with the IP addresses that are allowed to access those non-PROD APIs
+- Add the IP Set as one of the Rules of the previously created Web ACL
+- Create a custom response JSON body
+- Set the default Web ACL action to BLOCK requests that don't match any rules and return 403 status with the custom response body
+
+Custom response body:
+```
+{
+    "message": "Sorry, your IP is blocked. Please Contact help@hubmapconsortium.org to request developer access to the target resources."
+}
+```
