@@ -47,7 +47,8 @@ Lambda proxy -> VPC -> Private subnet -> Public Nat Gateway -> PSC VM
 - Create a public Nat Gateway within one of the public subnets and associate an Elastic IP with it
 - Create a Route table with explicit subnet associations with the private subnet created earlier
 - Set the route table for the private subnet with Destination of `0.0.0.0/0` and Target of the public Nat gateway
-- Create the proxy lambda fucntion and set it ro run within the VPC and private subnet. And attach `AWSLambdaVPCAccessExecutionRole` permission policy to the lambda function execution role
+- Send a request to PSC network/system team to open a specific TCP port for AWS Nat gateway to connect. Port 8443 is used for ingest-api on PSC VMs
+- Create the proxy lambda fucntion and set it ro run within the VPC and private subnet. And attach `AWSLambdaVPCAccessExecutionRole` permission policy to the lambda function execution role. Also use a security group that is public accessible since we handle ACL with WAF at the API Gateway level
 - Import target API's openapi specification yaml file to AWS API Gateway
 - Enable CORS via OPTIONS method for each resource instead of using API Gateway's CORS option
 - Choose lambda proxy for request integration and proxy the request to the lambda fucntion created in the previous step
