@@ -143,47 +143,6 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /specimens/{identifier}:
-    get:
-      parameters:
-      - name: "identifier"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/specimens/{identifier}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "identifier"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/specimens/{identifier}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/bulk:
     post:
       requestBody:
@@ -315,6 +274,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -348,6 +309,8 @@ paths:
         type: "http_proxy"
   /datasets/status:
     put:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -418,6 +381,8 @@ paths:
         type: "http_proxy"
   /metadata/usergroups:
     get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
@@ -980,6 +945,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -1342,6 +1309,8 @@ paths:
         type: "aws_proxy"
   /datasets/derived:
     post:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
@@ -1473,6 +1442,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
