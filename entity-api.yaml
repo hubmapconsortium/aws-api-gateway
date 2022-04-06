@@ -379,6 +379,8 @@ paths:
         type: "http_proxy"
   /samples/prov-info:
     get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
@@ -614,6 +616,8 @@ paths:
         type: "http_proxy"
   /datasets/prov-info:
     get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
@@ -2401,16 +2405,16 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
   UNAUTHORIZED:
     statusCode: 401
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
   ACCESS_DENIED:
     statusCode: 403
     responseTemplates:
