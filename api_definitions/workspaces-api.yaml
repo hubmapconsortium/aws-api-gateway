@@ -1,7 +1,10 @@
 openapi: "3.0.1"
 info:
   title: "HuBMAP Workspaces REST API"
-  version: "2022-05-18T16:43:25Z"
+  description: "The User Workspaces Server is a REST/Websocket server which allows\
+    \ developers to create workspaces and launch interactive sessions on a variety\
+    \ of resources. The AWS API Gateway only handles the REST API part."
+  version: "2022-05-18T17:24:15Z"
 servers:
 - url: "https://demo.api.hubmapconsortium.org"
 paths:
