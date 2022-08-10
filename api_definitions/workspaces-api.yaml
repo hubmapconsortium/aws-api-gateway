@@ -4,9 +4,9 @@ info:
   description: "The User Workspaces Server is a REST/Websocket server which allows\
     \ developers to create workspaces and launch interactive sessions on a variety\
     \ of resources. The AWS API Gateway only handles the REST API part."
-  version: "2022-05-18T17:24:15Z"
+  version: "2022-08-10T13:26:42Z"
 servers:
-- url: "https://demo.api.hubmapconsortium.org"
+- url: "https://workspaces.api.hubmapconsortium.org"
 paths:
   /jobs/{id}:
     get:
@@ -84,6 +84,43 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /status:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/status/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/status/"
+        responses:
+          default:
+            statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
