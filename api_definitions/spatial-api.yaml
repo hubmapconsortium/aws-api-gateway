@@ -40,7 +40,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/HubMAPIds"
       x-amazon-apigateway-integration:
-        type: "http"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/search/hubmap_id/{hubmap_id}/radius/{radius}/target/{target}"
@@ -53,6 +52,19 @@ paths:
           integration.request.path.target: "method.request.path.target"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http"
+  /sample/extracted-cell-count-from-secondary-analysis-files:
+    put:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/sample/extracted-cell-count-from-secondary-analysis-files"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /spatial-search/point:
     post:
       operationId: "spatial_search_point"
@@ -76,7 +88,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/HubMAPIds"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/spatial-search/point"
@@ -85,6 +96,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /spatial-search/hubmap_id:
     post:
       operationId: "spatial_search_hubmap_id"
@@ -108,7 +120,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/HubMAPIds"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/spatial-search/hubmap_id"
@@ -117,6 +128,27 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /sample/update/uuid/{uuid}:
+    put:
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/sample/update/uuid/{uuid}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.uuid: "method.request.path.uuid"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
 components:
   schemas:
     SpatialSearchPointRequest:
