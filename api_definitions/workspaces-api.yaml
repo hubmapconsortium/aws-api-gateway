@@ -4,7 +4,7 @@ info:
   description: "The User Workspaces Server is a REST/Websocket server which allows\
     \ developers to create workspaces and launch interactive sessions on a variety\
     \ of resources. The AWS API Gateway only handles the REST API part."
-  version: "2022-08-10T13:26:42Z"
+  version: "2022-08-11T16:30:26Z"
 servers:
 - url: "https://workspaces.api.hubmapconsortium.org"
 paths:
@@ -168,6 +168,32 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/workspaces/{id}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    delete:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "DELETE"
         uri: "http://${stageVariables.VPCNLB}/workspaces/{id}/"
         responses:
           default:
