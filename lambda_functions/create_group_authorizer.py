@@ -4,7 +4,6 @@ from flask import Response
 
 # # HuBMAP commons
 from hubmap_commons.hm_auth import AuthHelper
-from hubmap_commons import globus_groups
 
 # To correctly use the logging library in the AWS Lambda context, we need to 
 # set the log-level for the root-logger
@@ -281,7 +280,7 @@ def user_belongs_to_data_provider_group(user_group_ids):
     result = False
 
     # Get the globus groups info based on the groups json file in commons package
-    globus_groups_info = globus_groups.get_globus_groups_info()
+    globus_groups_info = auth_helper_instance.get_globus_groups_info()
     groups_by_id_dict = globus_groups_info['by_id']
 
     # A list of data provider uuids
