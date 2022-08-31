@@ -10,16 +10,12 @@ from hubmap_commons.hm_auth import AuthHelper
 logging.getLogger().setLevel(logging.DEBUG)
 
 # Set logging format and level (default is warning)
-# All the API logging is forwarded to the uWSGI server and gets written into the log file `uwsgi-hubmap-auth.log`
-# Log rotation is handled via logrotate on the host system with a configuration file
-# Do NOT handle log file and rotation via the Python logging to avoid issues with multi-worker processes
 logging.basicConfig(format='[%(asctime)s] %(levelname)s in %(module)s: %(message)s', level=logging.DEBUG, datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 # Load environment variables
 GLOBUS_APP_CLIENT_ID = os.environ['GLOBUS_APP_CLIENT_ID']
 GLOBUS_APP_CLIENT_SECRET = os.environ['GLOBUS_APP_CLIENT_SECRET']
-HUBMAP_READ_GROUP_UUID = os.environ['HUBMAP_READ_GROUP_UUID']
 
 # Initialize AuthHelper class and ensure singleton
 try:
@@ -94,7 +90,10 @@ def lambda_handler(event, context):
       
                     logger.debug(f'=======User groups=======: {user_group_ids}')
                     
-                    if user_belongs_to_target_group(user_group_ids, HUBMAP_READ_GROUP_UUID):
+                    # Check to see if a user has read privileges
+                    # The user has read privileges if they are a member of the
+                    # default read group or if they have write privileges at all (including data-admin)
+                    if auth_helper_instance.has_read_privs(token):
                         effect = 'Allow'
                     else:
                         context_authorizer_key_value = 'User token is not associated with the required globus group'
@@ -226,35 +225,6 @@ def get_user_info(token):
     
     logger.debug(f'=======get_user_info() result=======: {result}')
     
-    return result
-    
- 
-"""
-Check if the user belongs to the target Globus group
-
-Parameters
-----------
-user_group_ids : list
-    A list of groups uuids associated with this token
-
-target_group_uuid : str
-    The uuid of target group
-    
-Returns
--------
-bool
-    True if the given token belongs to the given group, otherwise False
-"""
-def user_belongs_to_target_group(user_group_ids, target_group_uuid):
-    result = False
-    
-    for group_id in user_group_ids:
-        if group_id == target_group_uuid:
-            result = True
-            break
-    
-    logger.debug(f'=======user_belongs_to_target_group() result=======: {result}')
-
     return result
     
 

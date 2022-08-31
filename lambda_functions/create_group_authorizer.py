@@ -4,22 +4,19 @@ from flask import Response
 
 # # HuBMAP commons
 from hubmap_commons.hm_auth import AuthHelper
+from hubmap_commons import globus_groups
 
 # To correctly use the logging library in the AWS Lambda context, we need to 
 # set the log-level for the root-logger
 logging.getLogger().setLevel(logging.DEBUG)
 
 # Set logging format and level (default is warning)
-# All the API logging is forwarded to the uWSGI server and gets written into the log file `uwsgi-hubmap-auth.log`
-# Log rotation is handled via logrotate on the host system with a configuration file
-# Do NOT handle log file and rotation via the Python logging to avoid issues with multi-worker processes
 logging.basicConfig(format='[%(asctime)s] %(levelname)s in %(module)s: %(message)s', level=logging.DEBUG, datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 # Load environment variables
 GLOBUS_APP_CLIENT_ID = os.environ['GLOBUS_APP_CLIENT_ID']
 GLOBUS_APP_CLIENT_SECRET = os.environ['GLOBUS_APP_CLIENT_SECRET']
-HUBMAP_DATA_ADMIN_GROUP_UUID = os.environ['HUBMAP_DATA_ADMIN_GROUP_UUID']
 
 # Initialize AuthHelper class and ensure singleton
 try:
@@ -94,15 +91,13 @@ def lambda_handler(event, context):
       
                     logger.debug(f'=======User groups=======: {user_group_ids}')
                     
-                    # The HuBMAP-Data-Admin group can also create new entities
-                    if user_belongs_to_target_group(user_group_ids, HUBMAP_DATA_ADMIN_GROUP_UUID):
+                    # Check to see if a user has any write privileges at all
+                    # User must have membership in any group with a ("data_provider": true) attribute or
+                    # a member of a group with type 'data-admin'
+                    if auth_helper_instance.has_write_privs(token):
                         effect = 'Allow'
                     else:
-                        # Make sure one of the user's groups is a data provider group
-                        if user_belongs_to_data_provider_group(user_group_ids):
-                            effect = 'Allow'
-                        else:
-                            context_authorizer_key_value = 'User token is not associated with any data provider groups'
+                        context_authorizer_key_value = 'User token is not associated with any data provider groups'
                 else:
                     # We use this message in the custom 401 response template
                     context_authorizer_key_value = user_info_dict
@@ -231,74 +226,6 @@ def get_user_info(token):
     
     logger.debug(f'=======get_user_info() result=======: {result}')
     
-    return result
-    
- 
-"""
-Check if the user belongs to the target Globus group
-
-Parameters
-----------
-user_group_ids : list
-    A list of groups uuids associated with this token
-
-target_group_uuid : str
-    The uuid of target group
-    
-Returns
--------
-bool
-    True if the given token belongs to the given group, otherwise False
-"""
-def user_belongs_to_target_group(user_group_ids, target_group_uuid):
-    result = False
-    
-    for group_id in user_group_ids:
-        if group_id == target_group_uuid:
-            result = True
-            break
-    
-    logger.debug(f'=======user_belongs_to_target_group() result=======: {result}')
-
-    return result
-    
-
-"""
-Determine if the user is allowed to create new entity by checking if the user
-belongs to one of the data provider groups
-
-Parameters
-----------
-user_group_ids : list
-    A list of globus group uuids that the user has access to
-Returns
--------
-dict
-    The group info (group_uuid and group_name)
-"""
-def user_belongs_to_data_provider_group(user_group_ids):
-    result = False
-
-    # Get the globus groups info based on the groups json file in commons package
-    globus_groups_info = auth_helper_instance.get_globus_groups_info()
-    groups_by_id_dict = globus_groups_info['by_id']
-
-    # A list of data provider uuids
-    data_provider_uuids = []
-    for uuid_key in groups_by_id_dict:
-        if ('data_provider' in groups_by_id_dict[uuid_key]) and groups_by_id_dict[uuid_key]['data_provider']:
-            data_provider_uuids.append(uuid_key)
-
-    user_data_provider_uuids = []
-    for group_uuid in user_group_ids:
-        if group_uuid in data_provider_uuids:
-            user_data_provider_uuids.append(group_uuid)
-
-    if len(user_data_provider_uuids) > 0:
-        result = True
-
-    logger.debug(f'=======user_belongs_to_data_provider_group() result=======: {result}')
-
     return result
 
 
