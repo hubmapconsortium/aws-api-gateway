@@ -4,7 +4,6 @@ from flask import Response
 
 # # HuBMAP commons
 from hubmap_commons.hm_auth import AuthHelper
-from hubmap_commons import globus_groups
 
 # To correctly use the logging library in the AWS Lambda context, we need to 
 # set the log-level for the root-logger
