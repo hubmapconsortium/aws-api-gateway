@@ -7,9 +7,20 @@ info:
 servers:
 - url: "https://spatial-api.dev.hubmapconsortium.org"
 paths:
-  /search/hubmap_id/{hubmap_id}/radius/{radius}/target/{target}:
+  /status:
     get:
-      operationId: "search_hubmap_id_to_radius"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/status"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /search/hubmap-id/{id}/radius/{radius}/target/{target}:
+    get:
       parameters:
       - name: "target"
         in: "path"
@@ -21,44 +32,31 @@ paths:
         required: true
         schema:
           type: "string"
-      - name: "hubmap_id"
+      - name: "id"
         in: "path"
         required: true
         schema:
           type: "string"
-      responses:
-        "400":
-          description: "400 response"
-          content: {}
-        "404":
-          description: "404 response"
-          content: {}
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HubMAPIds"
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/search/hubmap_id/{hubmap_id}/radius/{radius}/target/{target}"
+        uri: "http://${stageVariables.VPCNLB}/search/hubmap-id/{id}/radius/{radius}/target/{target}"
         responses:
           default:
             statusCode: "200"
         requestParameters:
-          integration.request.path.hubmap_id: "method.request.path.hubmap_id"
+          integration.request.path.id: "method.request.path.id"
           integration.request.path.radius: "method.request.path.radius"
           integration.request.path.target: "method.request.path.target"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http"
-  /sample/extracted-cell-count-from-secondary-analysis-files:
+  /db/rebuild/annotation-details:
     put:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
-        uri: "http://${stageVariables.VPCNLB}/sample/extracted-cell-count-from-secondary-analysis-files"
+        uri: "http://${stageVariables.VPCNLB}/db/rebuild/annotation-details"
         responses:
           default:
             statusCode: "200"
@@ -97,39 +95,43 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /spatial-search/hubmap_id:
-    post:
-      operationId: "spatial_search_hubmap_id"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SpatialSearchRequest"
-        required: true
-      responses:
-        "400":
-          description: "400 response"
-          content: {}
-        "404":
-          description: "404 response"
-          content: {}
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HubMAPIds"
+  /sample/begin-extract-cell-type-counts-for-all-samples-for-organ-code:
+    put:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/spatial-search/hubmap_id"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/sample/begin-extract-cell-type-counts-for-all-samples-for-organ-code"
         responses:
           default:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /sample/update/uuid/{uuid}:
+  /db/rebuild/organ-sample-data:
+    put:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/db/rebuild/organ-sample-data"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /spatial-search/hubmap-id:
+    post:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/spatial-search/hubmap-id"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /sample/begin-extract-cell-type-counts-for/sample-uuid/{uuid}:
     put:
       parameters:
       - name: "uuid"
@@ -140,7 +142,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
-        uri: "http://${stageVariables.VPCNLB}/sample/update/uuid/{uuid}"
+        uri: "http://${stageVariables.VPCNLB}/sample/begin-extract-cell-type-counts-for/sample-uuid/{uuid}"
         responses:
           default:
             statusCode: "200"
@@ -149,6 +151,40 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /sample/extracted-cell-type-counts-from-secondary-analysis-files:
+    put:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/sample/extracted-cell-type-counts-from-secondary-analysis-files"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /:
+    get:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
 components:
   schemas:
     SpatialSearchPointRequest:
@@ -164,17 +200,6 @@ components:
           type: "number"
         z:
           type: "number"
-    SpatialSearchRequest:
-      type: "object"
-      properties:
-        target:
-          type: "string"
-        radius:
-          type: "number"
-        hubmap_id:
-          type: "string"
-        cell_type:
-          type: "string"
     HubMAPIds:
       type: "object"
       properties:
