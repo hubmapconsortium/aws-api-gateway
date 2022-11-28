@@ -5,7 +5,7 @@ info:
     \ associated with project entities."
   version: "0.1.0"
 servers:
-- url: "https://files-api.dev.hubmapconsortium.org"
+- url: "https://files.api.hubmapconsortium.org"
 paths:
   /status:
     get:
@@ -30,7 +30,7 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /{id}/files:
+  /entities/{id}/files:
     get:
       parameters:
       - name: "id"
@@ -38,32 +38,12 @@ paths:
         required: true
         schema:
           type: "string"
-      responses:
-        "404":
-          description: "404 response"
-          content: {}
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfMODELd0e0f5"
-        "401":
-          description: "401 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-        "303":
-          description: "303 response"
-          content: {}
-        "403":
-          description: "403 response"
-          content: {}
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/{id}/files"
+        uri: "http://${stageVariables.VPCNLB}/entities/{id}/files"
         responses:
           default:
             statusCode: "200"
@@ -82,7 +62,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/{id}/files"
+        uri: "http://${stageVariables.VPCNLB}/entities/{id}/files"
         responses:
           default:
             statusCode: "200"
@@ -106,6 +86,8 @@ paths:
         "200":
           description: "200 response"
           content: {}
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -137,6 +119,45 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /datasets/{id}/construct-file-documents:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/construct-file-documents"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/construct-file-documents"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http"
   /:
     get:
       x-amazon-apigateway-integration:
@@ -172,6 +193,8 @@ paths:
         type: "aws_proxy"
   /datasets/reindex-all:
     put:
+      security:
+      - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -190,73 +213,26 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /{id}/dataset-file-infos:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/{id}/dataset-file-infos"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/{id}/dataset-file-infos"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
 components:
-  schemas:
-    ArrayOfMODELd0e0f5:
-      type: "array"
-      items:
-        type: "object"
-        properties:
-          file_uuid:
-            type: "string"
-            description: "The uuid of the file"
-          path:
-            type: "string"
-            description: "The local file system path including name of the file"
-          checksum:
-            type: "string"
-            description: "The checksum of the file"
-          size:
-            type: "string"
-            description: "Integer size of the file in bytes"
-          base_dir:
-            type: "string"
-            description: "One of DATA_UPLOAD|INGEST_PORTAL_UPLOAD. INGEST_PORTAL_UPLOAD\
-              \ means the file was uploaded into the space for file uploads from the\
-              \ Ingest UI.  DATA_UPLOAD means the file was upload into the upload\
-              \ space for datasets usually via Globus"
-            enum:
-            - "INGEST_PORTAL_UPLOAD"
-            - "DATA_UPLOAD"
+  securitySchemes:
+    HuBMAP-API-Gateway-Read-Group-Authorizer:
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "custom"
+      x-amazon-apigateway-authorizer:
+        authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Read-Group-Authorizer/invocations"
+        authorizerResultTtlInSeconds: 0
+        type: "token"
+    HuBMAP-API-Gateway-Data-Admin-Group-Authorizer:
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "custom"
+      x-amazon-apigateway-authorizer:
+        authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Data-Admin-Group-Authorizer/invocations"
+        authorizerResultTtlInSeconds: 0
+        type: "token"
