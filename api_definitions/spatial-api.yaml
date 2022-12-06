@@ -5,7 +5,7 @@ info:
     \ operations."
   version: "1.0.0"
 servers:
-- url: "https://spatial-api.dev.hubmapconsortium.org"
+- url: "https://spatial.api.hubmapconsortium.org"
 paths:
   /status:
     get:
@@ -133,6 +133,29 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/point-search"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /samples/incremental-reindex:
+    post:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/samples/incremental-reindex"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/samples/incremental-reindex"
         responses:
           default:
             statusCode: "200"
