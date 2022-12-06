@@ -10,6 +10,7 @@ paths:
   /status:
     get:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -18,9 +19,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -29,7 +30,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /search/hubmap-id/{id}/radius/{radius}/target/{target}:
     get:
       parameters:
@@ -49,6 +49,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/search/hubmap-id/{id}/radius/{radius}/target/{target}"
@@ -61,7 +62,6 @@ paths:
           integration.request.path.target: "method.request.path.target"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http"
     options:
       parameters:
       - name: "target"
@@ -80,6 +80,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/search/hubmap-id/{id}/radius/{radius}/target/{target}"
@@ -92,10 +93,10 @@ paths:
           integration.request.path.target: "method.request.path.target"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/cell-type-counts:
     put:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/samples/cell-type-counts"
@@ -104,9 +105,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/cell-type-counts"
@@ -115,10 +116,10 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /point-search:
     post:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/point-search"
@@ -127,9 +128,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/point-search"
@@ -138,21 +139,21 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/incremental-reindex:
-    post:
+    put:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
+        httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/samples/incremental-reindex"
         responses:
           default:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/incremental-reindex"
@@ -161,7 +162,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/organs/{organ_code}/reindex:
     put:
       parameters:
@@ -171,6 +171,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/samples/organs/{organ_code}/reindex"
@@ -181,7 +182,6 @@ paths:
           integration.request.path.organ_code: "method.request.path.organ_code"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "organ_code"
@@ -190,6 +190,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/organs/{organ_code}/reindex"
@@ -200,10 +201,10 @@ paths:
           integration.request.path.organ_code: "method.request.path.organ_code"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /spatial-search/hubmap-id:
     post:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/spatial-search/hubmap-id"
@@ -212,9 +213,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/spatial-search/hubmap-id"
@@ -223,7 +224,6 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/{sample_uuid}/reindex:
     put:
       parameters:
@@ -233,6 +233,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/samples/{sample_uuid}/reindex"
@@ -243,7 +244,6 @@ paths:
           integration.request.path.sample_uuid: "method.request.path.sample_uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       parameters:
       - name: "sample_uuid"
@@ -252,6 +252,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/{sample_uuid}/reindex"
@@ -262,10 +263,10 @@ paths:
           integration.request.path.sample_uuid: "method.request.path.sample_uuid"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /samples/reindex-all:
     put:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/samples/reindex-all"
@@ -274,9 +275,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/reindex-all"
@@ -285,10 +286,10 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
   /:
     get:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -297,9 +298,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
+        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -307,10 +308,10 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
   /rebuild-annotation-details:
     put:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/rebuild-annotation-details"
@@ -319,9 +320,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/rebuild-annotation-details"
@@ -330,5 +331,4 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
 components: {}
