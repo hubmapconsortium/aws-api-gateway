@@ -3,7 +3,7 @@ info:
   title: "HuBMAP Entity API"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.0.21"
+  version: "2.1.11"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -379,8 +379,6 @@ paths:
         type: "http_proxy"
   /samples/prov-info:
     get:
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
@@ -1048,6 +1046,31 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /datasets/unpublished:
+    get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/prov-info:
     get:
       parameters:
@@ -1439,6 +1462,45 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /datasets/{id}/paired-dataset:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
         responses:
           default:
             statusCode: "200"
@@ -2417,19 +2479,19 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  ACCESS_DENIED:
-    statusCode: 403
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
     responseTemplates:
-      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
-        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
-        \n}"
+      application/json: "{\"message\":$context.error.messageString}"
   UNAUTHORIZED:
     statusCode: 401
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
+  ACCESS_DENIED:
+    statusCode: 403
     responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
+      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
+        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
+        \n}"
