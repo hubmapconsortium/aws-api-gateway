@@ -1,0 +1,977 @@
+openapi: "3.0.1"
+info:
+  title: "UBKG API"
+  description: "This document describes the UBKG API"
+  version: "1.2.0"
+servers:
+- url: "https://ontology.api.hubmapconsortium.org"
+paths:
+  /codes/{code_id}/concepts:
+    get:
+      operationId: "codes_code_id_concepts_get"
+      parameters:
+      - name: "code_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfConceptDetail"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.code_id: "method.request.path.code_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "code_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.code_id: "method.request.path.code_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /valueset:
+    get:
+      operationId: "valueset_get"
+      parameters:
+      - name: "parent_sab"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "child_sabs"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "parent_code"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfSabCodeTerm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/valueset"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/valueset"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /{proxy+}:
+    x-amazon-apigateway-any-method:
+      parameters:
+      - name: "proxy"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        cacheNamespace: "nolktc"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+  /terms/{term_id}/codes:
+    get:
+      operationId: "terms_term_id_codes_get"
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfTermtypeCode"
+      x-amazon-apigateway-integration:
+        type: "http"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/{concept_id}/codes:
+    get:
+      operationId: "concepts_concept_id_codes_get"
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "sab"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/shortestpaths:
+    post:
+      operationId: "concepts_shortestpaths_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QconceptTconceptSabRel"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/concepts/shortestpaths"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/shortestpaths"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /codes/{code_id}/codes:
+    get:
+      operationId: "codes_code_id_codes_get"
+      parameters:
+      - name: "code_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "sab"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfCodesCodesObj"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.code_id: "method.request.path.code_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "code_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.code_id: "method.request.path.code_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /terms/{term_id}/concepts:
+    get:
+      operationId: "terms_term_id_concepts_get"
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/{concept_id}/concepts:
+    get:
+      operationId: "concepts_concept_id_concepts_get"
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfSabRelationshipConceptTerm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/trees:
+    post:
+      operationId: "concepts_trees_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConceptSabRelDepth"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/concepts/trees"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/trees"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /:
+    get:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+  /concepts/expand:
+    post:
+      operationId: "concepts_expand_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConceptSabRelDepth"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfConceptPrefterm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/concepts/expand"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/expand"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/{concept_id}/definitions:
+    get:
+      operationId: "concepts_concept_id_definitions_get"
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfSabDefinition"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/paths:
+    post:
+      operationId: "concepts_path_post"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConceptSabRel"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /terms/{term_id}/concepts/terms:
+    get:
+      operationId: "terms_term_id_concepts_terms_get"
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfConceptTerm"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "term_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.term_id: "method.request.path.term_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /concepts/{concept_id}/semantics:
+    get:
+      operationId: "concepts_concept_id_semantics_get"
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfStyTuiStn"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "concept_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.concept_id: "method.request.path.concept_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /semantics/{semantic_id}/semantics:
+    get:
+      operationId: "semantics_semantic_id_semantics_get"
+      parameters:
+      - name: "semantic_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfQQST"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.semantic_id: "method.request.path.semantic_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "semantic_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.semantic_id: "method.request.path.semantic_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+  /tui/{tui_id}/semantics:
+    get:
+      operationId: "tui_tui_id_semantics_get"
+      parameters:
+      - name: "tui_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfSemanticStn"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.tui_id: "method.request.path.tui_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+    options:
+      parameters:
+      - name: "tui_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.tui_id: "method.request.path.tui_id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+components:
+  schemas:
+    ArrayOfTermtypeCode:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/TermtypeCode"
+    SabRelationshipConceptTerm:
+      type: "object"
+      properties:
+        sab:
+          type: "string"
+        relationship:
+          type: "string"
+        concept:
+          type: "string"
+        prefterm:
+          type: "string"
+    ArrayOfSabCodeTerm:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/SabCodeTerm"
+    ArrayOfQQST:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/QQST"
+    SabCodeTerm:
+      type: "object"
+      properties:
+        sab:
+          type: "string"
+        code:
+          type: "string"
+        term:
+          type: "string"
+    ArrayOfSabRelationshipConceptTerm:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/SabRelationshipConceptTerm"
+    ArrayOfSemanticStn:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/SemanticStn"
+    SemanticStn:
+      type: "object"
+      properties:
+        semantic:
+          type: "string"
+        STN:
+          type: "string"
+    SabDefinition:
+      type: "object"
+      properties:
+        sab:
+          type: "string"
+        definition:
+          type: "string"
+    TermtypeCode:
+      type: "object"
+      properties:
+        termtype:
+          type: "string"
+        code:
+          type: "string"
+    PathItemConceptRelationshipSabPrefterm:
+      type: "object"
+      properties:
+        path:
+          type: "string"
+        item:
+          type: "string"
+        concept:
+          type: "string"
+        relationship:
+          type: "string"
+        sab:
+          type: "string"
+        prefterm:
+          type: "string"
+    ArrayOfConceptTerm:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ConceptTerm"
+    ConceptDetail:
+      type: "object"
+      properties:
+        concept:
+          type: "string"
+        prefterm:
+          type: "string"
+    CodesCodesObj:
+      type: "object"
+      properties:
+        concept:
+          type: "string"
+        code:
+          type: "string"
+        SAB:
+          type: "string"
+    ArrayOfPathItemConceptRelationshipSabPrefterm:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/PathItemConceptRelationshipSabPrefterm"
+    QQST:
+      type: "object"
+      properties:
+        queryTUI:
+          type: "string"
+        querySTN:
+          type: "string"
+        semantic:
+          type: "string"
+        TUI:
+          type: "string"
+        STN:
+          type: "string"
+    ArrayOfConceptPrefterm:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ConceptPrefterm"
+    ConceptPrefterm:
+      type: "object"
+      properties:
+        concept:
+          type: "string"
+        prefterm:
+          type: "string"
+    ArrayOfSabDefinition:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/SabDefinition"
+    ArrayOfStyTuiStn:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/StyTuiStn"
+    QconceptTconceptSabRel:
+      type: "object"
+      properties:
+        query_concept_id:
+          type: "string"
+        target_concept_id:
+          type: "string"
+        sab:
+          type: "array"
+          items:
+            type: "string"
+        rel:
+          type: "array"
+          items:
+            type: "string"
+    ConceptSabRel:
+      type: "object"
+      properties:
+        query_concept_id:
+          type: "string"
+        sab:
+          type: "array"
+          items:
+            type: "string"
+        rel:
+          type: "array"
+          items:
+            type: "string"
+    ConceptTerm:
+      type: "object"
+      properties:
+        concept:
+          type: "string"
+        term:
+          type: "string"
+    ArrayOfConceptDetail:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ConceptDetail"
+    ArrayOfCodesCodesObj:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/CodesCodesObj"
+    ConceptSabRelDepth:
+      type: "object"
+      properties:
+        query_concept_id:
+          type: "string"
+        sab:
+          type: "array"
+          items:
+            type: "string"
+        rel:
+          type: "array"
+          items:
+            type: "string"
+        depth:
+          type: "integer"
+          format: "int32"
+    StyTuiStn:
+      type: "object"
+      properties:
+        sty:
+          type: "string"
+        tui:
+          type: "string"
+        stn:
+          type: "string"
