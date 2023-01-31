@@ -5,9 +5,9 @@ info:
     \ It handles data indexing and reindexing into the backend Elasticsearch. It also\
     \ accepts the search query and passes through to the Elasticsearch with data access\
     \ security check."
-  version: "3.0.4"
+  version: "3.0.7"
 servers:
-- url: "https://search-api.dev.hubmapconsortium.org/{basePath}"
+- url: "https://search.api.hubmapconsortium.org/{basePath}"
   variables:
     basePath:
       default: "/v3"
@@ -889,6 +889,53 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /{index}/scroll-search:
+    post:
+      parameters:
+      - name: "index"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/{index}/scroll-search"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.index: "method.request.path.index"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "index"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/{index}/scroll-search"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.index: "method.request.path.index"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /reindex-all:
     put:
       security:
@@ -976,16 +1023,8 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseParameters:
-      gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
-      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
-  ACCESS_DENIED:
-    statusCode: 403
+  UNAUTHORIZED:
+    statusCode: 401
     responseParameters:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
@@ -998,8 +1037,8 @@ x-amazon-apigateway-gateway-responses:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-  UNAUTHORIZED:
-    statusCode: 401
+  ACCESS_DENIED:
+    statusCode: 403
     responseParameters:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
@@ -1007,3 +1046,11 @@ x-amazon-apigateway-gateway-responses:
     responseTemplates:
       application/json: "{ \"message\": \"$context.error.message\", \"hint\": \"$context.authorizer.key\"\
         , \"http_method\": \"$context.httpMethod\"}"
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
