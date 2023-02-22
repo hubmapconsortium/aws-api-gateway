@@ -7,7 +7,7 @@ info:
     \ security check."
   version: "3.0.11"
 servers:
-- url: "https://search.api.hubmapconsortium.org/{basePath}"
+- url: "https://search-api.test.hubmapconsortium.org/{basePath}"
   variables:
     basePath:
       default: "/v3"
@@ -59,6 +59,8 @@ paths:
         "200":
           description: "200 response"
           content: {}
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -296,6 +298,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
@@ -768,6 +772,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
@@ -814,6 +820,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
@@ -891,6 +899,8 @@ paths:
         required: true
         schema:
           type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -1030,7 +1040,7 @@ paths:
         schema:
           type: "string"
       security:
-      - HuBMAP-API-Gateway-Create-Group-Authorizer: []
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
@@ -1117,7 +1127,7 @@ paths:
         schema:
           type: "string"
       security:
-      - HuBMAP-API-Gateway-Create-Group-Authorizer: []
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
@@ -1226,15 +1236,6 @@ components:
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Data-Admin-Group-Authorizer/invocations"
         authorizerResultTtlInSeconds: 0
         type: "token"
-    HuBMAP-API-Gateway-Create-Group-Authorizer:
-      type: "apiKey"
-      name: "Authorization"
-      in: "header"
-      x-amazon-apigateway-authtype: "custom"
-      x-amazon-apigateway-authorizer:
-        authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Create-Group-Authorizer/invocations"
-        authorizerResultTtlInSeconds: 0
-        type: "token"
 x-amazon-apigateway-gateway-responses:
   DEFAULT_4XX:
     responseParameters:
@@ -1249,8 +1250,8 @@ x-amazon-apigateway-gateway-responses:
       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
     responseTemplates:
       application/json: "{\"message\":$context.error.messageString}"
-  ACCESS_DENIED:
-    statusCode: 403
+  UNAUTHORIZED:
+    statusCode: 401
     responseParameters:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
@@ -1258,8 +1259,8 @@ x-amazon-apigateway-gateway-responses:
     responseTemplates:
       application/json: "{ \"message\": \"$context.error.message\", \"hint\": \"$context.authorizer.key\"\
         , \"http_method\": \"$context.httpMethod\"}"
-  UNAUTHORIZED:
-    statusCode: 401
+  ACCESS_DENIED:
+    statusCode: 403
     responseParameters:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
