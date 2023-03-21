@@ -5,7 +5,7 @@ info:
     \ It handles data indexing and reindexing into the backend Elasticsearch. It also\
     \ accepts the search query and passes through to the Elasticsearch with data access\
     \ security check."
-  version: "3.0.11"
+  version: "3.1.1"
 servers:
 - url: "https://search-api.test.hubmapconsortium.org/{basePath}"
   variables:
@@ -107,6 +107,53 @@ paths:
           integration.request.path.index: "method.request.path.index"
           integration.request.path.identifier: "method.request.path.identifier"
           integration.request.path.scope: "method.request.path.scope"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /param-search/{entity_type}:
+    get:
+      parameters:
+      - name: "entity_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/param-search/{entity_type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.entity_type: "method.request.path.entity_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "entity_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/param-search/{entity_type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.entity_type: "method.request.path.entity_type"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
@@ -285,6 +332,37 @@ paths:
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
+  /attribute-values:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/attribute-values"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/attribute-values"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /clear-docs/{index}/{identifier}:
     post:
       parameters:
@@ -546,6 +624,53 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/{index}/search"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.index: "method.request.path.index"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /{index}/attribute-values:
+    get:
+      parameters:
+      - name: "index"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/{index}/attribute-values"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.index: "method.request.path.index"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "index"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/{index}/attribute-values"
         responses:
           default:
             statusCode: "200"
@@ -1241,6 +1366,14 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
   UNAUTHORIZED:
     statusCode: 401
     responseParameters:
@@ -1264,11 +1397,3 @@ x-amazon-apigateway-gateway-responses:
       gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
       gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
       gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseParameters:
-      gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
-      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
