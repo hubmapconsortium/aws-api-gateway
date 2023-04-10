@@ -3,7 +3,7 @@ info:
   title: "HuBMAP Entity API"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.1.11"
+  version: "2.1.19"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -70,6 +70,20 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /flush-all-cache:
+    delete:
+      security:
+      - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "DELETE"
+        uri: "http://${stageVariables.VPCNLB}/flush-all-cache"
+        responses:
+          default:
+            statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
@@ -1398,6 +1412,65 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /entities/{param}/instanceof/{type}:
+    get:
+      parameters:
+      - name: "type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type: "method.request.path.type"
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type: "method.request.path.type"
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/retract:
     put:
       parameters:
@@ -1540,6 +1613,28 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/organs"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /flush-cache/{id}:
+    delete:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "DELETE"
+        uri: "http://${stageVariables.VPCNLB}/flush-cache/{id}"
         responses:
           default:
             statusCode: "200"
@@ -2483,14 +2578,14 @@ x-amazon-apigateway-gateway-responses:
     statusCode: 404
     responseTemplates:
       application/json: "{\"message\":$context.error.messageString}"
-  UNAUTHORIZED:
-    statusCode: 401
+  ACCESS_DENIED:
+    statusCode: 403
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
-  ACCESS_DENIED:
-    statusCode: 403
+  UNAUTHORIZED:
+    statusCode: 401
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
