@@ -1,0 +1,313 @@
+openapi: "3.0.1"
+info:
+  title: "HuBMAP User Templates API"
+  description: "The User Templates API returns pre-defined templates to be used by\
+    \ interactive services (such as JupyterLab)."
+  version: "0.1.0"
+servers:
+- url: "https://user-templates-api.dev.hubmapconsortium.org"
+paths:
+  /templates/{template_type}/{template_name}:
+    post:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "template_name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateRequest"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostTemplateResponse"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_name: "method.request.path.template_name"
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "template_name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_name: "method.request.path.template_name"
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /test_templates/{template_type}/{template_format}:
+    post:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "template_format"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestTemplateRequest"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostTemplateResponse"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_format: "method.request.path.template_format"
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "template_format"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_format: "method.request.path.template_format"
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /templates/{template_type}:
+    get:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "tags"
+        in: "query"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetTemplatesResponse"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "template_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.template_type: "method.request.path.template_type"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /template_types:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetTemplateTypesResponse"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/template_types"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/template_types"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /:
+    x-amazon-apigateway-any-method:
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+components:
+  schemas:
+    GetTemplateTypesResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        success:
+          type: "boolean"
+        data:
+          type: "object"
+          properties:
+            template_type_name:
+              type: "object"
+              properties:
+                usw_job_type:
+                  type: "string"
+                  description: "This is tied to the User Workspaces Server"
+                description:
+                  type: "string"
+    TemplateRequest:
+      type: "object"
+      properties:
+        uuids:
+          type: "array"
+          items:
+            type: "string"
+    GetTemplatesResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        success:
+          type: "boolean"
+        data:
+          type: "object"
+          properties:
+            template_name:
+              type: "object"
+              properties:
+                template_title:
+                  type: "string"
+                description:
+                  type: "string"
+    TestTemplateRequest:
+      type: "object"
+      properties:
+        uuids:
+          type: "array"
+          items:
+            type: "string"
+        template:
+          type: "object"
+    PostTemplateResponse:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        success:
+          type: "boolean"
+        data:
+          type: "object"
+          properties:
+            template:
+              type: "string"
