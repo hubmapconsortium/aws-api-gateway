@@ -3,9 +3,12 @@ info:
   title: "HuBMAP User Templates API"
   description: "The User Templates API returns pre-defined templates to be used by\
     \ interactive services (such as JupyterLab)."
-  version: "0.1.0"
+  version: "1.0.1"
 servers:
-- url: "https://user-templates-api.dev.hubmapconsortium.org"
+- url: "https://qu0wrwsdu2.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "PROD"
 paths:
   /templates/{template_type}/{template_name}:
     post:
@@ -36,7 +39,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}/"
         responses:
           default:
             statusCode: "200"
@@ -65,7 +68,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/{template_name}/"
         responses:
           default:
             statusCode: "200"
@@ -104,7 +107,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}"
+        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}/"
         responses:
           default:
             statusCode: "200"
@@ -133,7 +136,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}"
+        uri: "http://${stageVariables.VPCNLB}/test_templates/{template_type}/{template_format}/"
         responses:
           default:
             statusCode: "200"
@@ -165,7 +168,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/"
         responses:
           default:
             statusCode: "200"
@@ -188,7 +191,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}"
+        uri: "http://${stageVariables.VPCNLB}/templates/{template_type}/"
         responses:
           default:
             statusCode: "200"
@@ -209,7 +212,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/template_types"
+        uri: "http://${stageVariables.VPCNLB}/template_types/"
         responses:
           default:
             statusCode: "200"
@@ -224,7 +227,7 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/template_types"
+        uri: "http://${stageVariables.VPCNLB}/template_types/"
         responses:
           default:
             statusCode: "200"
