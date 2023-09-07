@@ -3,7 +3,7 @@ info:
   title: "HuBMAP Entity API"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.1.19"
+  version: "2.1.34"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -445,6 +445,53 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/dataset/globus-url/{id}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /siblings/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/siblings/{id}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/siblings/{id}"
         responses:
           default:
             statusCode: "200"
@@ -2633,10 +2680,6 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
   UNAUTHORIZED:
     statusCode: 401
     responseTemplates:
@@ -2649,3 +2692,7 @@ x-amazon-apigateway-gateway-responses:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
