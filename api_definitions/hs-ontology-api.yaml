@@ -3,7 +3,7 @@ info:
   title: "hs-ontology-api"
   description: "Ontology API built on top of the UBKG API and shared by HuBMAP and\
     \ SenNet projects"
-  version: "1.4.3"
+  version: "1.4.4"
 servers:
 - url: "https://ontology.api.hubmapconsortium.org"
 paths:
@@ -34,7 +34,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabCodeTerm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/valueset"
@@ -43,9 +42,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/valueset"
@@ -54,6 +53,30 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /genes-info:
+    get:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/genes-info"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /assaytype/{name}:
     get:
       parameters:
@@ -67,7 +90,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/assaytype/{name}"
@@ -78,6 +100,7 @@ paths:
           integration.request.path.name: "method.request.path.name"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "name"
@@ -90,7 +113,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/assaytype/{name}"
@@ -101,6 +123,7 @@ paths:
           integration.request.path.name: "method.request.path.name"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /terms/{term_id}/codes:
     get:
       operationId: "terms_term_id_codes_get"
@@ -118,7 +141,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfTermtypeCode"
       x-amazon-apigateway-integration:
-        type: "http"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
@@ -129,6 +151,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http"
     options:
       parameters:
       - name: "term_id"
@@ -137,7 +160,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
@@ -148,6 +170,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/{concept_id}/codes:
     get:
       operationId: "concepts_concept_id_codes_get"
@@ -166,7 +189,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
@@ -177,6 +199,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "concept_id"
@@ -185,7 +208,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
@@ -196,6 +218,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/shortestpaths:
     post:
       operationId: "concepts_shortestpaths_post"
@@ -213,7 +236,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/concepts/shortestpaths"
@@ -222,9 +244,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/shortestpaths"
@@ -233,6 +255,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /assaytype:
     get:
       responses:
@@ -240,7 +263,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/assaytype"
@@ -249,13 +271,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/assaytype"
@@ -264,6 +286,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /codes/{code_id}/codes:
     get:
       operationId: "codes_code_id_codes_get"
@@ -285,7 +308,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfCodesCodesObj"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
@@ -296,6 +318,7 @@ paths:
           integration.request.path.code_id: "method.request.path.code_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "code_id"
@@ -304,7 +327,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
@@ -315,6 +337,7 @@ paths:
           integration.request.path.code_id: "method.request.path.code_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /terms/{term_id}/concepts:
     get:
       operationId: "terms_term_id_concepts_get"
@@ -329,7 +352,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
@@ -340,6 +362,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "term_id"
@@ -348,7 +371,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
@@ -359,6 +381,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /relationships/gene/{target_symbol}:
     get:
       parameters:
@@ -372,7 +395,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
@@ -383,6 +405,7 @@ paths:
           integration.request.path.target_symbol: "method.request.path.target_symbol"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "target_symbol"
@@ -395,7 +418,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
@@ -406,6 +428,7 @@ paths:
           integration.request.path.target_symbol: "method.request.path.target_symbol"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/{concept_id}/concepts:
     get:
       operationId: "concepts_concept_id_concepts_get"
@@ -423,7 +446,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabRelationshipConceptTerm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
@@ -434,6 +456,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "concept_id"
@@ -442,7 +465,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
@@ -453,6 +475,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/trees:
     post:
       operationId: "concepts_trees_post"
@@ -470,7 +493,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/concepts/trees"
@@ -479,9 +501,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/trees"
@@ -490,6 +512,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /organs/by-code:
     get:
       responses:
@@ -497,7 +520,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/organs/by-code"
@@ -506,13 +528,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/organs/by-code"
@@ -521,6 +543,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/{concept_id}/definitions:
     get:
       operationId: "concepts_concept_id_definitions_get"
@@ -538,7 +561,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabDefinition"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
@@ -549,6 +571,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "concept_id"
@@ -557,7 +580,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
@@ -568,6 +590,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /organs:
     get:
       responses:
@@ -575,7 +598,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/organs"
@@ -584,13 +606,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/organs"
@@ -599,6 +621,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /assayname:
     post:
       responses:
@@ -606,7 +629,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/assayname"
@@ -615,13 +637,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/assayname"
@@ -630,6 +652,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/paths:
     post:
       operationId: "concepts_path_post"
@@ -647,7 +670,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/concepts/paths"
@@ -656,9 +678,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/paths"
@@ -667,6 +689,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /semantics/{semantic_id}/semantics:
     get:
       operationId: "semantics_semantic_id_semantics_get"
@@ -684,7 +707,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfQQST"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
@@ -695,6 +717,7 @@ paths:
           integration.request.path.semantic_id: "method.request.path.semantic_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "semantic_id"
@@ -703,7 +726,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
@@ -714,6 +736,7 @@ paths:
           integration.request.path.semantic_id: "method.request.path.semantic_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /tui/{tui_id}/semantics:
     get:
       operationId: "tui_tui_id_semantics_get"
@@ -731,7 +754,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSemanticStn"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
@@ -742,6 +764,7 @@ paths:
           integration.request.path.tui_id: "method.request.path.tui_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "tui_id"
@@ -750,7 +773,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
@@ -761,6 +783,7 @@ paths:
           integration.request.path.tui_id: "method.request.path.tui_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /codes/{code_id}/concepts:
     get:
       operationId: "codes_code_id_concepts_get"
@@ -778,7 +801,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfConceptDetail"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
@@ -789,6 +811,7 @@ paths:
           integration.request.path.code_id: "method.request.path.code_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "code_id"
@@ -797,7 +820,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
@@ -808,6 +830,7 @@ paths:
           integration.request.path.code_id: "method.request.path.code_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /genes:
     get:
       responses:
@@ -815,7 +838,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/genes"
@@ -824,13 +846,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/genes"
@@ -839,6 +861,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /gene/{id}:
     get:
       parameters:
@@ -852,7 +875,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/gene/{id}"
@@ -863,6 +885,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -875,7 +898,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/gene/{id}"
@@ -886,6 +908,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /{proxy+}:
     x-amazon-apigateway-any-method:
       parameters:
@@ -895,7 +918,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -906,6 +928,7 @@ paths:
         cacheKeyParameters:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
   /datasets:
     get:
       responses:
@@ -913,7 +936,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets"
@@ -922,13 +944,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets"
@@ -937,10 +959,49 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /genes/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/genes/{id}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/genes/{id}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -949,9 +1010,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -960,9 +1021,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -970,6 +1031,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
   /concepts/expand:
     post:
       operationId: "concepts_expand_post"
@@ -987,7 +1049,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfConceptPrefterm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/concepts/expand"
@@ -996,9 +1057,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/expand"
@@ -1007,6 +1068,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /status:
     get:
       responses:
@@ -1014,7 +1076,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -1023,13 +1084,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -1038,6 +1099,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /terms/{term_id}/concepts/terms:
     get:
       operationId: "terms_term_id_concepts_terms_get"
@@ -1055,7 +1117,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfConceptTerm"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
@@ -1066,6 +1127,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "term_id"
@@ -1074,7 +1136,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
@@ -1085,6 +1146,7 @@ paths:
           integration.request.path.term_id: "method.request.path.term_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /concepts/{concept_id}/semantics:
     get:
       operationId: "concepts_concept_id_semantics_get"
@@ -1102,7 +1164,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfStyTuiStn"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
@@ -1113,6 +1174,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "concept_id"
@@ -1121,7 +1183,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
@@ -1132,6 +1193,7 @@ paths:
           integration.request.path.concept_id: "method.request.path.concept_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
 components:
   schemas:
     ArrayOfTermtypeCode:
