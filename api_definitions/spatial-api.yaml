@@ -1,9 +1,9 @@
 openapi: "3.0.1"
 info:
-  title: "HuBMAP Spatial API"
+  title: "spatial-api"
   description: "The HuBMAP Spatial API is a standard RESTful web service with create\
     \ operations."
-  version: "1.2.0"
+  version: "1.2.2"
 servers:
 - url: "https://spatial.api.hubmapconsortium.org"
 paths:
@@ -61,7 +61,7 @@ paths:
           integration.request.path.target: "method.request.path.target"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http"
+        type: "http_proxy"
     options:
       parameters:
       - name: "target"
