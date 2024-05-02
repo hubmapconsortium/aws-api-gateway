@@ -3,7 +3,7 @@ info:
   title: "entity-api"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.3.8"
+  version: "2.3.9"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -12,7 +12,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "DELETE"
         uri: "http://${stageVariables.VPCNLB}/flush-all-cache"
@@ -21,6 +20,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /doi/redirect/{id}:
     get:
       parameters:
@@ -40,7 +40,6 @@ paths:
           description: "307 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
@@ -51,6 +50,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -59,7 +59,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
@@ -70,6 +69,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/revisions:
     get:
       parameters:
@@ -79,7 +79,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/revisions"
@@ -90,6 +89,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -98,7 +98,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/revisions"
@@ -109,6 +108,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/revisions:
     get:
       parameters:
@@ -148,7 +148,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/revisions"
@@ -161,6 +160,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -169,7 +169,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/revisions"
@@ -180,45 +179,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-  /entities/{param}/multi-revisions:
-    get:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
         type: "http_proxy"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/multi-revisions"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-    options:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        type: "http_proxy"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/multi-revisions"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
   /ancestors/{id}:
     get:
       parameters:
@@ -251,7 +212,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/ancestors/{id}"
@@ -264,6 +224,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -272,7 +233,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/ancestors/{id}"
@@ -283,6 +243,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}:
     get:
       parameters:
@@ -292,7 +253,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}"
@@ -303,6 +263,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     put:
       parameters:
       - name: "param"
@@ -313,7 +274,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}"
@@ -324,6 +284,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     post:
       parameters:
       - name: "param"
@@ -334,7 +295,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Create-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}"
@@ -345,6 +305,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -353,7 +314,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}"
@@ -364,10 +324,10 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /samples/prov-info:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/samples/prov-info"
@@ -376,9 +336,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/samples/prov-info"
@@ -387,6 +347,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/dataset/globus-url/{id}:
     get:
       parameters:
@@ -396,7 +357,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
@@ -407,6 +367,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -415,7 +376,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/dataset/globus-url/{id}"
@@ -426,6 +386,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/components:
     post:
       responses:
@@ -435,7 +396,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Create-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/datasets/components"
@@ -444,13 +404,13 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       responses:
         "200":
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/components"
@@ -459,6 +419,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /descendants/{id}:
     get:
       parameters:
@@ -493,7 +454,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/descendants/{id}"
@@ -506,6 +466,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -514,7 +475,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/descendants/{id}"
@@ -525,6 +485,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/tuplets:
     get:
       parameters:
@@ -534,7 +495,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/tuplets"
@@ -545,6 +505,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -553,7 +514,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/tuplets"
@@ -564,6 +524,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /previous_revisions/{id}:
     get:
       parameters:
@@ -575,7 +536,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/previous_revisions/{id}"
@@ -586,6 +546,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -594,7 +555,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/previous_revisions/{id}"
@@ -605,6 +565,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /documents/{id}:
     get:
       parameters:
@@ -614,7 +575,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/documents/{id}"
@@ -625,6 +585,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -633,7 +594,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/documents/{id}"
@@ -644,10 +604,10 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/prov-info:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/prov-info"
@@ -656,9 +616,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/prov-info"
@@ -667,6 +627,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http"
   /collection/redirect/{id}:
     get:
       parameters:
@@ -676,7 +637,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
@@ -687,6 +647,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -695,7 +656,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/collection/redirect/{id}"
@@ -706,6 +666,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/type/{type_a}/instanceof/{type_b}:
     get:
       parameters:
@@ -724,7 +685,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
@@ -736,6 +696,7 @@ paths:
           integration.request.path.type_a: "method.request.path.type_a"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "type_b"
@@ -753,7 +714,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
@@ -765,6 +725,7 @@ paths:
           integration.request.path.type_a: "method.request.path.type_a"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /children/{id}:
     get:
       parameters:
@@ -776,7 +737,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/children/{id}"
@@ -787,6 +747,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -795,7 +756,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/children/{id}"
@@ -806,6 +766,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /redirect/{id}:
     get:
       parameters:
@@ -815,7 +776,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/redirect/{id}"
@@ -826,6 +786,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -834,7 +795,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/redirect/{id}"
@@ -845,6 +805,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/donors:
     get:
       parameters:
@@ -854,7 +815,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/donors"
@@ -865,6 +825,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -873,7 +834,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/donors"
@@ -884,6 +844,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /parents/{id}:
     get:
       parameters:
@@ -916,7 +877,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/parents/{id}"
@@ -929,6 +889,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -937,7 +898,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/parents/{id}"
@@ -948,6 +908,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/multiple-samples/{count}:
     post:
       parameters:
@@ -979,7 +940,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Create-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "POST"
         uri: "http://${stageVariables.VPCNLB}/entities/multiple-samples/{count}"
@@ -992,6 +952,7 @@ paths:
           integration.request.path.count: "method.request.path.count"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "count"
@@ -1000,7 +961,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/multiple-samples/{count}"
@@ -1011,45 +971,7 @@ paths:
           integration.request.path.count: "method.request.path.count"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-  /datasets/{id}/multi-revisions:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
         type: "http_proxy"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/multi-revisions"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        type: "http_proxy"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/multi-revisions"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
   /{proxy+}:
     x-amazon-apigateway-any-method:
       parameters:
@@ -1059,7 +981,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -1070,6 +991,7 @@ paths:
         cacheKeyParameters:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
   /entities/{param}/globus-url:
     get:
       parameters:
@@ -1079,7 +1001,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/globus-url"
@@ -1090,6 +1011,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -1098,7 +1020,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/globus-url"
@@ -1109,12 +1030,12 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /usergroups:
     get:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/usergroups"
@@ -1123,6 +1044,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/provenance:
     get:
       parameters:
@@ -1132,7 +1054,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
@@ -1143,6 +1064,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -1151,7 +1073,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
@@ -1162,6 +1083,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /next_revisions/{id}:
     get:
       parameters:
@@ -1173,7 +1095,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
@@ -1184,6 +1105,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1192,7 +1114,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
@@ -1203,12 +1124,12 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/unpublished:
     get:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
@@ -1217,9 +1138,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
@@ -1228,6 +1149,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/siblings:
     get:
       parameters:
@@ -1237,7 +1159,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/siblings"
@@ -1248,6 +1169,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -1256,7 +1178,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/siblings"
@@ -1267,6 +1188,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/prov-info:
     get:
       parameters:
@@ -1276,7 +1198,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
@@ -1287,6 +1208,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1295,7 +1217,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
@@ -1306,10 +1227,10 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -1318,9 +1239,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/"
@@ -1329,9 +1250,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
-        type: "aws_proxy"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
         responses:
@@ -1339,10 +1260,10 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
   /status:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -1351,9 +1272,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/status"
@@ -1362,6 +1283,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/latest-revision:
     get:
       parameters:
@@ -1397,7 +1319,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/latest-revision"
@@ -1410,6 +1331,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1418,7 +1340,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/latest-revision"
@@ -1429,6 +1350,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/samples:
     get:
       parameters:
@@ -1438,7 +1360,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/samples"
@@ -1449,6 +1370,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1457,7 +1379,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/samples"
@@ -1468,6 +1389,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /dataset/globus-url/{id}:
     get:
       parameters:
@@ -1477,7 +1399,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
@@ -1488,6 +1409,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1496,7 +1418,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/dataset/globus-url/{id}"
@@ -1507,10 +1428,10 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/sankey_data:
     get:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
@@ -1519,9 +1440,9 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
@@ -1530,6 +1451,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/revision:
     get:
       parameters:
@@ -1562,7 +1484,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/revision"
@@ -1575,6 +1496,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1583,7 +1505,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/revision"
@@ -1594,6 +1515,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/ancestor-organs:
     get:
       parameters:
@@ -1603,7 +1525,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/ancestor-organs"
@@ -1614,6 +1535,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "param"
@@ -1622,7 +1544,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/ancestor-organs"
@@ -1633,6 +1554,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/{param}/instanceof/{type}:
     get:
       parameters:
@@ -1651,7 +1573,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
@@ -1663,6 +1584,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "type"
@@ -1680,7 +1602,6 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
@@ -1692,6 +1613,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/retract:
     put:
       parameters:
@@ -1732,7 +1654,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "PUT"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
@@ -1745,6 +1666,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1753,7 +1675,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
@@ -1764,6 +1685,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/paired-dataset:
     get:
       parameters:
@@ -1773,7 +1695,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
@@ -1784,6 +1705,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1792,7 +1714,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
@@ -1803,6 +1724,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /datasets/{id}/organs:
     get:
       parameters:
@@ -1812,7 +1734,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/organs"
@@ -1823,6 +1744,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       parameters:
       - name: "id"
@@ -1831,7 +1753,6 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/organs"
@@ -1842,6 +1763,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /flush-cache/{id}:
     delete:
       parameters:
@@ -1853,7 +1775,6 @@ paths:
       security:
       - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "DELETE"
         uri: "http://${stageVariables.VPCNLB}/flush-cache/{id}"
@@ -1864,6 +1785,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entity-types:
     get:
       responses:
@@ -1884,7 +1806,6 @@ paths:
           description: "403 response"
           content: {}
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         uri: "http://${stageVariables.VPCNLB}/entity-types"
@@ -1895,9 +1816,9 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        type: "http_proxy"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/entity-types"
@@ -1906,6 +1827,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        type: "http_proxy"
 components:
   schemas:
     ArrayOfMODEL72cebd:
@@ -2769,32 +2691,28 @@ components:
       in: "header"
       x-amazon-apigateway-authtype: "custom"
       x-amazon-apigateway-authorizer:
-        type: "token"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Read-Group-Authorizer/invocations"
         authorizerResultTtlInSeconds: 0
+        type: "token"
     HuBMAP-API-Gateway-Data-Admin-Group-Authorizer:
       type: "apiKey"
       name: "Authorization"
       in: "header"
       x-amazon-apigateway-authtype: "custom"
       x-amazon-apigateway-authorizer:
-        type: "token"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Data-Admin-Group-Authorizer/invocations"
         authorizerResultTtlInSeconds: 0
+        type: "token"
     HuBMAP-API-Gateway-Create-Group-Authorizer:
       type: "apiKey"
       name: "Authorization"
       in: "header"
       x-amazon-apigateway-authtype: "custom"
       x-amazon-apigateway-authorizer:
-        type: "token"
         authorizerUri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-Create-Group-Authorizer/invocations"
         authorizerResultTtlInSeconds: 0
+        type: "token"
 x-amazon-apigateway-gateway-responses:
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
   ACCESS_DENIED:
     statusCode: 403
     responseTemplates:
@@ -2807,3 +2725,7 @@ x-amazon-apigateway-gateway-responses:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
