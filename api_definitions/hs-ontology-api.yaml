@@ -765,37 +765,6 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /genes:
-    get:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/genes"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/genes"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /{proxy+}:
     x-amazon-apigateway-any-method:
       parameters:
@@ -1104,43 +1073,6 @@ paths:
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
-  /concepts/expand:
-    post:
-      operationId: "concepts_expand_post"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConceptSabRelDepth"
-        required: true
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfConceptPrefterm"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/concepts/expand"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/expand"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /concepts/paths/subgraph:
     get:
       operationId: "concepts_subgraph_get"
@@ -1479,53 +1411,6 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /terms/{term_id}/concepts/terms:
-    get:
-      operationId: "terms_term_id_concepts_terms_get"
-      parameters:
-      - name: "term_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfConceptTerm"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "term_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts/terms"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /node-types:
     get:
       operationId: "node_type_get"
@@ -1713,53 +1598,6 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /concepts/{concept_id}/semantics:
-    get:
-      operationId: "concepts_concept_id_semantics_get"
-      parameters:
-      - name: "concept_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfStyTuiStn"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "concept_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /field-entities:
     get:
       x-amazon-apigateway-integration:
@@ -1894,43 +1732,6 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.target_symbol: "method.request.path.target_symbol"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /concepts/trees:
-    post:
-      operationId: "concepts_trees_post"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConceptSabRelDepth"
-        required: true
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/concepts/trees"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/trees"
-        responses:
-          default:
-            statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
@@ -2273,43 +2074,6 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
-  /concepts/paths:
-    post:
-      operationId: "concepts_path_post"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConceptSabRel"
-        required: true
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfPathItemConceptRelationshipSabPrefterm"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
   /celltypes-info:
     get:
       x-amazon-apigateway-integration:
@@ -2330,100 +2094,6 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /semantics/{semantic_id}/semantics:
-    get:
-      operationId: "semantics_semantic_id_semantics_get"
-      parameters:
-      - name: "semantic_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfQQST"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.semantic_id: "method.request.path.semantic_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "semantic_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/semantics/{semantic_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.semantic_id: "method.request.path.semantic_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /tui/{tui_id}/semantics:
-    get:
-      operationId: "tui_tui_id_semantics_get"
-      parameters:
-      - name: "tui_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfSemanticStn"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.tui_id: "method.request.path.tui_id"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "tui_id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/tui/{tui_id}/semantics"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.tui_id: "method.request.path.tui_id"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
@@ -2930,10 +2600,6 @@ components:
             description: "information on a single path"
       description: "Represents a graph for a set of paths that originate from a Concept\
         \ node."
-    ArrayOfQQST:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/QQST"
     DatabaseInfo:
       type: "object"
       properties:
@@ -2957,10 +2623,6 @@ components:
       type: "array"
       items:
         $ref: "#/components/schemas/SabRelationshipConceptTerm"
-    ArrayOfSemanticStn:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/SemanticStn"
     SabCodeCounts:
       type: "object"
       properties:
@@ -2983,13 +2645,6 @@ components:
                 format: "int32"
             description: "a source (SAB)"
       description: "A set of information on a source (SAB), including counts by codes."
-    SemanticStn:
-      type: "object"
-      properties:
-        semantic:
-          type: "string"
-        STN:
-          type: "string"
     SabDefinition:
       type: "object"
       properties:
@@ -3081,25 +2736,6 @@ components:
                       \ Type node"
                 description: "A Semantic Type node"
       description: "Array of Semantic Type nodes"
-    PathItemConceptRelationshipSabPrefterm:
-      type: "object"
-      properties:
-        path:
-          type: "string"
-        item:
-          type: "string"
-        concept:
-          type: "string"
-        relationship:
-          type: "string"
-        sab:
-          type: "string"
-        prefterm:
-          type: "string"
-    ArrayOfConceptTerm:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/ConceptTerm"
     ConceptDetail:
       type: "object"
       properties:
@@ -3130,10 +2766,6 @@ components:
             description: "the term type"
       description: "A set of term types (relationship types) for relationships that\
         \ originate from the Code nodes that are defined by a source (SAB)."
-    ArrayOfPathItemConceptRelationshipSabPrefterm:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/PathItemConceptRelationshipSabPrefterm"
     RelationshipTypes:
       type: "object"
       properties:
@@ -3271,19 +2903,6 @@ components:
         \ is the origin of a subgraph that links the Concept node to a set of Code,\
         \ Term, Definition, and Semantic Type nodes. The Concept node object represents\
         \ information extracted from all of the nodes in the Concept node's subgraph."
-    QQST:
-      type: "object"
-      properties:
-        queryTUI:
-          type: "string"
-        querySTN:
-          type: "string"
-        semantic:
-          type: "string"
-        TUI:
-          type: "string"
-        STN:
-          type: "string"
     NodeTypes:
       type: "object"
       properties:
@@ -3318,45 +2937,10 @@ components:
                     description: "count of nodes with the label"
                     format: "int32"
       description: "counts by node type"
-    ArrayOfConceptPrefterm:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/ConceptPrefterm"
-    ConceptPrefterm:
-      type: "object"
-      properties:
-        concept:
-          type: "string"
-        prefterm:
-          type: "string"
     ArrayOfSabDefinition:
       type: "array"
       items:
         $ref: "#/components/schemas/SabDefinition"
-    ArrayOfStyTuiStn:
-      type: "array"
-      items:
-        $ref: "#/components/schemas/StyTuiStn"
-    ConceptSabRel:
-      type: "object"
-      properties:
-        query_concept_id:
-          type: "string"
-        sab:
-          type: "array"
-          items:
-            type: "string"
-        rel:
-          type: "array"
-          items:
-            type: "string"
-    ConceptTerm:
-      type: "object"
-      properties:
-        concept:
-          type: "string"
-        term:
-          type: "string"
     ArrayOfConceptDetail:
       type: "array"
       items:
@@ -3365,22 +2949,6 @@ components:
       type: "array"
       items:
         $ref: "#/components/schemas/CodesCodesObj"
-    ConceptSabRelDepth:
-      type: "object"
-      properties:
-        query_concept_id:
-          type: "string"
-        sab:
-          type: "array"
-          items:
-            type: "string"
-        rel:
-          type: "array"
-          items:
-            type: "string"
-        depth:
-          type: "integer"
-          format: "int32"
     NodeTypeSabCount:
       type: "object"
       properties:
@@ -3421,12 +2989,3 @@ components:
                             \ node type"
                           format: "int32"
       description: "counts by node type, grouped by SAB"
-    StyTuiStn:
-      type: "object"
-      properties:
-        sty:
-          type: "string"
-        tui:
-          type: "string"
-        stn:
-          type: "string"
