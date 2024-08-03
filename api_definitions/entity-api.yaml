@@ -3,7 +3,7 @@ info:
   title: "entity-api"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.3.9"
+  version: "2.3.17"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -667,6 +667,45 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /entities/{param}/collections:
+    get:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /entities/type/{type_a}/instanceof/{type_b}:
     get:
       parameters:
@@ -1261,6 +1300,45 @@ paths:
         passthroughBehavior: "when_no_match"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
+  /entities/{param}/uploads:
+    get:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/uploads"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/uploads"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /status:
     get:
       x-amazon-apigateway-integration:
@@ -1783,6 +1861,29 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+  /constraints:
+    post:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/constraints"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/constraints"
+        responses:
+          default:
+            statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
@@ -2713,19 +2814,19 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  ACCESS_DENIED:
-    statusCode: 403
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
     responseTemplates:
-      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
-        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
-        \n}"
+      application/json: "{\"message\":$context.error.messageString}"
   UNAUTHORIZED:
     statusCode: 401
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
+  ACCESS_DENIED:
+    statusCode: 403
     responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
+      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
+        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
+        \n}"
