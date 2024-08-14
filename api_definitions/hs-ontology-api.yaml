@@ -1744,6 +1744,45 @@ paths:
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
         type: "http_proxy"
+  /dataset-types/{name}:
+    get:
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.name: "method.request.path.name"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.name: "method.request.path.name"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK"
+        type: "http_proxy"
   /terms/{term_id}/concepts:
     get:
       operationId: "terms_term_id_concepts_get"
