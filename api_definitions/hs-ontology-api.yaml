@@ -6,7 +6,7 @@ info:
     \ To prevent exceeding service timeouts or payload limits, some endpoints are\
     \ throttled in both execution time and in the size of its response payload--e.g.,\
     \ to a maximum execution time of 15 seconds and a maximum payload of 9 MB."
-  version: "2.1.2"
+  version: "2.2.0"
 servers:
 - url: "https://ontology.api.hubmapconsortium.org"
 paths:
@@ -30,8 +30,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -45,8 +45,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sabs:
     get:
@@ -71,8 +71,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -86,8 +86,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /valueset:
     get:
@@ -122,8 +122,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -133,8 +133,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /genes-info:
     get:
@@ -145,8 +145,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -156,55 +156,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /assaytype/{name}:
-    get:
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/assaytype/{name}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.name: "method.request.path.name"
         passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/assaytype/{name}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
         type: "http_proxy"
   /terms/{term_id}/codes:
     get:
@@ -231,8 +184,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http"
     options:
       parameters:
@@ -250,8 +203,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-assays:
     get:
@@ -262,8 +215,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -273,8 +226,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/codes:
     get:
@@ -302,8 +255,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -321,8 +274,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /codes/{code_id}/terms:
     get:
@@ -341,8 +294,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -360,39 +313,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /assaytype:
-    get:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/assaytype"
-        responses:
-          default:
-            statusCode: "200"
         passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/assaytype"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
         type: "http_proxy"
   /codes/{code_id}/codes:
     get:
@@ -423,8 +345,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -442,8 +364,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/concepts:
     get:
@@ -470,8 +392,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -489,8 +411,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-descriptions:
     get:
@@ -501,8 +423,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -512,8 +434,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/nodeobjects:
     get:
@@ -546,8 +468,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -569,8 +491,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/paths/shortestpath/{terminus_concept_id}:
     get:
@@ -622,8 +544,8 @@ paths:
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
           integration.request.path.terminus_concept_id: "method.request.path.terminus_concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -650,8 +572,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.terminus_concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /node-types/{node_type}/counts-by-sab:
     get:
@@ -692,8 +614,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.node_type: "method.request.path.node_type"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -715,8 +637,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.node_type: "method.request.path.node_type"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /proteins/{id}:
     get:
@@ -735,8 +657,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -754,8 +676,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /codes/{code_id}/concepts:
     get:
@@ -782,8 +704,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -801,8 +723,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.code_id: "method.request.path.code_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /{proxy+}:
     x-amazon-apigateway-any-method:
@@ -833,8 +755,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -844,8 +766,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /semantics/semantic-types/{identifier}:
     get:
@@ -889,8 +811,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -912,8 +834,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/paths/subgraph/sequential/sequential:
     get:
@@ -932,8 +854,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -951,8 +873,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sabs/codes/counts:
     get:
@@ -989,8 +911,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -1004,8 +926,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-entities/{name}:
     get:
@@ -1024,8 +946,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1043,8 +965,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /node-types/{node_type}/counts:
     get:
@@ -1077,8 +999,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.node_type: "method.request.path.node_type"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1100,8 +1022,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.node_type: "method.request.path.node_type"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /relationship-types:
     get:
@@ -1123,8 +1045,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -1138,8 +1060,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /:
     get:
@@ -1150,8 +1072,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1161,8 +1083,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
@@ -1183,8 +1105,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1194,8 +1116,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/paths/trees:
     get:
@@ -1257,8 +1179,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1280,8 +1202,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sabs/{sab}/codes/details:
     get:
@@ -1325,8 +1247,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1348,8 +1270,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/paths/subgraph/sequential:
     get:
@@ -1368,8 +1290,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1387,8 +1309,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/paths/expand:
     get:
@@ -1450,8 +1372,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1473,8 +1395,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /database/server:
     get:
@@ -1493,8 +1415,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -1508,8 +1430,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /node-types:
     get:
@@ -1534,8 +1456,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -1549,8 +1471,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-assays/{name}:
     get:
@@ -1569,8 +1491,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1588,8 +1510,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sabs/{sab}/codes/counts:
     get:
@@ -1633,8 +1555,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1656,8 +1578,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /celltypes/{id}:
     get:
@@ -1676,8 +1598,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1695,8 +1617,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-entities:
     get:
@@ -1707,8 +1629,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1718,8 +1640,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-schemas:
     get:
@@ -1730,8 +1652,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1741,8 +1663,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /dataset-types/{name}:
     get:
@@ -1761,8 +1683,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1780,8 +1702,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /terms/{term_id}/concepts:
     get:
@@ -1805,8 +1727,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1824,8 +1746,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.term_id: "method.request.path.term_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /relationships/gene/{target_symbol}:
     get:
@@ -1848,8 +1770,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.target_symbol: "method.request.path.target_symbol"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1871,8 +1793,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.target_symbol: "method.request.path.target_symbol"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-descriptions/{name}:
     get:
@@ -1891,8 +1813,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1910,8 +1832,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-types/{name}:
     get:
@@ -1930,8 +1852,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -1949,8 +1871,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sabs/{sab}/term-types:
     get:
@@ -1994,8 +1916,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2017,8 +1939,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /assayclasses/{name}:
     get:
@@ -2037,8 +1959,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2056,8 +1978,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /organs/by-code:
     get:
@@ -2072,8 +1994,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -2087,8 +2009,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /concepts/{concept_id}/definitions:
     get:
@@ -2115,8 +2037,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2134,8 +2056,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /organs:
     get:
@@ -2150,8 +2072,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -2165,39 +2087,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        type: "http_proxy"
-  /assayname:
-    post:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        uri: "http://${stageVariables.VPCNLB}/assayname"
-        responses:
-          default:
-            statusCode: "200"
         passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
-        type: "http_proxy"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/assayname"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        connectionType: "VPC_LINK"
         type: "http_proxy"
   /semantics/semantic-types:
     get:
@@ -2234,8 +2125,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -2249,8 +2140,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /celltypes-info:
     get:
@@ -2261,8 +2152,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2272,8 +2163,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /dataset-types:
     get:
@@ -2284,8 +2175,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2295,8 +2186,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /semantics/semantic-types/{identifier}/subtypes:
     get:
@@ -2340,8 +2231,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2363,8 +2254,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-types-info:
     get:
@@ -2375,8 +2266,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2386,8 +2277,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /assayclasses:
     get:
@@ -2398,8 +2289,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2409,8 +2300,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /genes/{id}:
     get:
@@ -2429,8 +2320,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2448,8 +2339,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /status:
     get:
@@ -2464,8 +2355,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -2479,8 +2370,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /proteins-info:
     get:
@@ -2491,8 +2382,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2502,8 +2393,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-types:
     get:
@@ -2514,8 +2405,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2525,8 +2416,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /sources:
     get:
@@ -2537,8 +2428,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -2548,8 +2439,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-schemas/{name}:
     get:
@@ -2568,8 +2459,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -2587,8 +2478,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.name: "method.request.path.name"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
 components:
   schemas:
