@@ -1,17 +1,17 @@
 openapi: "3.0.1"
 info:
-  title: "HuBMAP Workspaces REST API"
+  title: "workspaces-api"
   description: "The User Workspaces Server is a REST/Websocket server which allows\
     \ developers to create workspaces and launch interactive sessions on a variety\
     \ of resources. The AWS API Gateway only handles the REST API part."
-  version: "2022-08-11T16:30:26Z"
+  version: "2025-02-19T20:24:28Z"
 servers:
 - url: "https://workspaces.api.hubmapconsortium.org"
 paths:
-  /jobs/{id}:
+  /shared_workspaces/{workspace_id}:
     get:
       parameters:
-      - name: "id"
+      - name: "workspace_id"
         in: "path"
         required: true
         schema:
@@ -26,18 +26,18 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/{workspace_id}"
         responses:
           default:
             statusCode: "200"
         requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
+          integration.request.path.workspace_id: "method.request.path.workspace_id"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
-    put:
+    delete:
       parameters:
-      - name: "id"
+      - name: "workspace_id"
         in: "path"
         required: true
         schema:
@@ -51,19 +51,19 @@ paths:
                 $ref: "#/components/schemas/Empty"
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "PUT"
-        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        httpMethod: "DELETE"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/{workspace_id}"
         responses:
           default:
             statusCode: "200"
         requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
+          integration.request.path.workspace_id: "method.request.path.workspace_id"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
-      - name: "id"
+      - name: "workspace_id"
         in: "path"
         required: true
         schema:
@@ -78,16 +78,16 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/{workspace_id}"
         responses:
           default:
             statusCode: "200"
         requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
+          integration.request.path.workspace_id: "method.request.path.workspace_id"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
-  /status:
+  /users:
     get:
       responses:
         "200":
@@ -99,12 +99,12 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/status/"
+        uri: "http://${stageVariables.VPCNLB}/users/"
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -117,12 +117,12 @@ paths:
       x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/status/"
+        uri: "http://${stageVariables.VPCNLB}/users/"
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /workspaces/{id}:
     get:
@@ -148,8 +148,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     put:
       parameters:
@@ -174,8 +174,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     delete:
       parameters:
@@ -200,8 +200,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -226,8 +226,8 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /job_types:
     get:
@@ -245,8 +245,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -263,8 +263,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /workspaces/{id}/{type}:
     put:
@@ -296,8 +296,8 @@ paths:
         requestParameters:
           integration.request.path.type: "method.request.path.type"
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -328,8 +328,8 @@ paths:
         requestParameters:
           integration.request.path.type: "method.request.path.type"
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /jobs/{id}/{type}:
     put:
@@ -361,8 +361,8 @@ paths:
         requestParameters:
           integration.request.path.type: "method.request.path.type"
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       parameters:
@@ -393,8 +393,8 @@ paths:
         requestParameters:
           integration.request.path.type: "method.request.path.type"
           integration.request.path.id: "method.request.path.id"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /tokens:
     post:
@@ -412,8 +412,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -430,8 +430,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /jobs:
     get:
@@ -449,8 +449,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -467,8 +467,45 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /parameters:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/parameters/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/parameters/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /workspaces:
     get:
@@ -486,8 +523,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     post:
       responses:
@@ -504,8 +541,8 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
     options:
       responses:
@@ -522,8 +559,244 @@ paths:
         responses:
           default:
             statusCode: "200"
-        passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /shared_workspaces/{workspace_id}/{put_type}:
+    put:
+      parameters:
+      - name: "workspace_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "put_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspace/{workspace_id}/{put_type}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.put_type: "method.request.path.put_type"
+          integration.request.path.workspace_id: "method.request.path.workspace_id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "workspace_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "put_type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspace/{workspace_id}/{put_type}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.put_type: "method.request.path.put_type"
+          integration.request.path.workspace_id: "method.request.path.workspace_id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /jobs/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    put:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/jobs/{id}/"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /status:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/status/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/status/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /shared_workspaces:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/shared_workspaces/"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
         type: "http_proxy"
 components:
   schemas:
