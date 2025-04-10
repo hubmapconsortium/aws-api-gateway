@@ -8,7 +8,7 @@ info:
     \ to a maximum execution time of 15 seconds and a maximum payload of 9 MB."
   version: "2.2.8"
 servers:
-- url: "https://ontology-api.dev.hubmapconsortium.org"
+- url: "https://ontology.api.hubmapconsortium.org"
 paths:
   /property-types:
     get:
