@@ -391,45 +391,6 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
-  /pathways/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
   /concepts/{concept_id}/concepts:
     get:
       operationId: "concepts_concept_id_concepts_get"
@@ -1675,6 +1636,45 @@ paths:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/celltypes/{id}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /pathways/{id}/participants:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
         responses:
           default:
             statusCode: "200"
