@@ -6,7 +6,7 @@ info:
     \ To prevent exceeding service timeouts or payload limits, some endpoints are\
     \ throttled in both execution time and in the size of its response payload--e.g.,\
     \ to a maximum execution time of 15 seconds and a maximum payload of 9 MB."
-  version: "2.2.8"
+  version: "2.2.15"
 servers:
 - url: "https://ontology.api.hubmapconsortium.org"
 paths:
@@ -24,9 +24,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/PropertyTypes"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/property-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/property-types"
         responses:
           default:
             statusCode: "200"
@@ -39,9 +39,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/property-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/property-types"
         responses:
           default:
             statusCode: "200"
@@ -65,9 +65,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Sabs"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sabs"
         responses:
           default:
             statusCode: "200"
@@ -80,9 +80,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sabs"
         responses:
           default:
             statusCode: "200"
@@ -92,9 +92,9 @@ paths:
   /pathways/with-genes:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/pathways/with-genes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/pathways/with-genes"
         responses:
           default:
             statusCode: "200"
@@ -103,9 +103,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/pathways/with-genes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/pathways/with-genes"
         responses:
           default:
             statusCode: "200"
@@ -139,9 +139,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabCodeTerm"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/valueset"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/valueset"
         responses:
           default:
             statusCode: "200"
@@ -150,9 +150,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/valueset"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/valueset"
         responses:
           default:
             statusCode: "200"
@@ -162,9 +162,9 @@ paths:
   /genes-info:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/genes-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/genes-info"
         responses:
           default:
             statusCode: "200"
@@ -173,9 +173,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/"
         responses:
           default:
             statusCode: "200"
@@ -199,9 +199,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfTermtypeCode"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -219,9 +219,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -233,9 +233,9 @@ paths:
   /field-assays:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-assays"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-assays"
         responses:
           default:
             statusCode: "200"
@@ -244,9 +244,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-assays"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-assays"
         responses:
           default:
             statusCode: "200"
@@ -271,9 +271,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -290,9 +290,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -310,9 +310,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/terms"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/terms"
         responses:
           default:
             statusCode: "200"
@@ -329,9 +329,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/terms"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/terms"
         responses:
           default:
             statusCode: "200"
@@ -361,9 +361,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfCodesCodesObj"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -380,9 +380,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/codes"
         responses:
           default:
             statusCode: "200"
@@ -408,9 +408,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabRelationshipConceptTerm"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -427,9 +427,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -441,9 +441,9 @@ paths:
   /field-descriptions:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-descriptions"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-descriptions"
         responses:
           default:
             statusCode: "200"
@@ -452,9 +452,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-descriptions"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-descriptions"
         responses:
           default:
             statusCode: "200"
@@ -484,9 +484,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ConceptNodes"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/nodeobjects"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/nodeobjects"
         responses:
           default:
             statusCode: "200"
@@ -507,14 +507,53 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/nodeobjects"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/nodeobjects"
         responses:
           default:
             statusCode: "200"
         requestParameters:
           integration.request.path.concept_id: "method.request.path.concept_id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /genes/{ids}:
+    get:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/genes/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/genes/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
@@ -559,9 +598,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/shortestpath/{terminus_concept_id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/shortestpath/{terminus_concept_id}"
         responses:
           default:
             statusCode: "200"
@@ -588,9 +627,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/shortestpath/{terminus_concept_id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/shortestpath/{terminus_concept_id}"
         responses:
           default:
             statusCode: "200"
@@ -630,9 +669,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts-by-sab"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts-by-sab"
         responses:
           default:
             statusCode: "200"
@@ -653,9 +692,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts-by-sab"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts-by-sab"
         responses:
           default:
             statusCode: "200"
@@ -673,9 +712,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/proteins/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/proteins/{id}"
         responses:
           default:
             statusCode: "200"
@@ -692,9 +731,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/proteins/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/proteins/{id}"
         responses:
           default:
             statusCode: "200"
@@ -720,9 +759,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfConceptDetail"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -739,9 +778,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/codes/{code_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -759,8 +798,8 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        httpMethod: "POST"
         responses:
           default:
             statusCode: "200"
@@ -773,9 +812,9 @@ paths:
   /concepts/paths/subgraph/sequential:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -784,9 +823,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -827,9 +866,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}"
         responses:
           default:
             statusCode: "200"
@@ -850,14 +889,53 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}"
         responses:
           default:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /celltypes/{ids}/detail:
+    get:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes/{ids}/detail"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes/{ids}/detail"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
@@ -870,9 +948,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -889,9 +967,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -929,9 +1007,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/codes/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sabs/codes/counts"
         responses:
           default:
             statusCode: "200"
@@ -944,9 +1022,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/codes/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sabs/codes/counts"
         responses:
           default:
             statusCode: "200"
@@ -962,9 +1040,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
         responses:
           default:
             statusCode: "200"
@@ -981,9 +1059,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1015,9 +1093,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/NodeTypeCount"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts"
         responses:
           default:
             statusCode: "200"
@@ -1038,9 +1116,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/node-types/{node_type}/counts"
         responses:
           default:
             statusCode: "200"
@@ -1063,9 +1141,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/RelationshipTypes"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/relationship-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/relationship-types"
         responses:
           default:
             statusCode: "200"
@@ -1078,9 +1156,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/relationship-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/relationship-types"
         responses:
           default:
             statusCode: "200"
@@ -1090,9 +1168,9 @@ paths:
   /:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/"
         responses:
           default:
             statusCode: "200"
@@ -1101,9 +1179,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/"
         responses:
           default:
             statusCode: "200"
@@ -1112,8 +1190,8 @@ paths:
         type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
-        httpMethod: "POST"
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        httpMethod: "POST"
         responses:
           default:
             statusCode: "200"
@@ -1123,9 +1201,9 @@ paths:
   /concepts/paths/subgraph:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph"
         responses:
           default:
             statusCode: "200"
@@ -1134,9 +1212,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph"
         responses:
           default:
             statusCode: "200"
@@ -1195,9 +1273,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/trees"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/trees"
         responses:
           default:
             statusCode: "200"
@@ -1218,9 +1296,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/trees"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/trees"
         responses:
           default:
             statusCode: "200"
@@ -1263,9 +1341,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/details"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/details"
         responses:
           default:
             statusCode: "200"
@@ -1286,9 +1364,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/details"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/details"
         responses:
           default:
             statusCode: "200"
@@ -1306,9 +1384,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -1325,9 +1403,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/paths/subgraph/sequential"
         responses:
           default:
             statusCode: "200"
@@ -1388,9 +1466,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/expand"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/expand"
         responses:
           default:
             statusCode: "200"
@@ -1411,9 +1489,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/expand"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/paths/expand"
         responses:
           default:
             statusCode: "200"
@@ -1433,9 +1511,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/DatabaseInfo"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/database/server"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/database/server"
         responses:
           default:
             statusCode: "200"
@@ -1448,9 +1526,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/database/server"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/database/server"
         responses:
           default:
             statusCode: "200"
@@ -1474,9 +1552,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/NodeTypes"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/node-types"
         responses:
           default:
             statusCode: "200"
@@ -1489,9 +1567,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/node-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/node-types"
         responses:
           default:
             statusCode: "200"
@@ -1507,9 +1585,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-assays/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-assays/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1526,9 +1604,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-assays/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-assays/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1571,9 +1649,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/counts"
         responses:
           default:
             statusCode: "200"
@@ -1594,53 +1672,14 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/counts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/codes/counts"
         responses:
           default:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
-  /celltypes/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/celltypes/{id}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/celltypes/{id}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
@@ -1653,9 +1692,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
         responses:
           default:
             statusCode: "200"
@@ -1672,9 +1711,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/pathways/{id}/participants"
         responses:
           default:
             statusCode: "200"
@@ -1686,9 +1725,9 @@ paths:
   /field-entities:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-entities"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-entities"
         responses:
           default:
             statusCode: "200"
@@ -1697,21 +1736,60 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-entities"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-entities"
         responses:
           default:
             statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /genes/{ids}/detail:
+    get:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/genes/{ids}/detail"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/genes/{ids}/detail"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
   /field-schemas:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-schemas"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-schemas"
         responses:
           default:
             statusCode: "200"
@@ -1720,9 +1798,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-schemas"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-schemas"
         responses:
           default:
             statusCode: "200"
@@ -1738,9 +1816,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1757,9 +1835,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1782,9 +1860,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -1801,9 +1879,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/terms/{term_id}/concepts"
         responses:
           default:
             statusCode: "200"
@@ -1825,9 +1903,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
         responses:
           default:
             statusCode: "200"
@@ -1848,9 +1926,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/relationships/gene/{target_symbol}"
         responses:
           default:
             statusCode: "200"
@@ -1868,9 +1946,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-descriptions/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-descriptions/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1887,9 +1965,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-descriptions/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-descriptions/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1907,9 +1985,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-types/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1926,9 +2004,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-types/{name}"
         responses:
           default:
             statusCode: "200"
@@ -1971,9 +2049,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/term-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/term-types"
         responses:
           default:
             statusCode: "200"
@@ -1994,9 +2072,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/term-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sabs/{sab}/term-types"
         responses:
           default:
             statusCode: "200"
@@ -2014,9 +2092,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/assayclasses/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/assayclasses/{name}"
         responses:
           default:
             statusCode: "200"
@@ -2033,9 +2111,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/assayclasses/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/assayclasses/{name}"
         responses:
           default:
             statusCode: "200"
@@ -2051,9 +2129,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/organs/by-code"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/organs/by-code"
         responses:
           default:
             statusCode: "200"
@@ -2066,9 +2144,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/organs/by-code"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/organs/by-code"
         responses:
           default:
             statusCode: "200"
@@ -2092,9 +2170,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ArrayOfSabDefinition"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
         responses:
           default:
             statusCode: "200"
@@ -2111,9 +2189,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/concepts/{concept_id}/definitions"
         responses:
           default:
             statusCode: "200"
@@ -2129,9 +2207,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/organs"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/organs"
         responses:
           default:
             statusCode: "200"
@@ -2144,9 +2222,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/organs"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/organs"
         responses:
           default:
             statusCode: "200"
@@ -2182,9 +2260,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types"
         responses:
           default:
             statusCode: "200"
@@ -2197,9 +2275,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types"
         responses:
           default:
             statusCode: "200"
@@ -2209,9 +2287,9 @@ paths:
   /celltypes-info:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/celltypes-info"
         responses:
           default:
             statusCode: "200"
@@ -2220,9 +2298,32 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/celltypes-info"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /annotations:
+    get:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/annotations"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/annotations"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
         responses:
           default:
             statusCode: "200"
@@ -2232,9 +2333,9 @@ paths:
   /dataset-types:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/dataset-types"
         responses:
           default:
             statusCode: "200"
@@ -2243,9 +2344,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/dataset-types"
         responses:
           default:
             statusCode: "200"
@@ -2286,9 +2387,9 @@ paths:
           description: "500 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}/subtypes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}/subtypes"
         responses:
           default:
             statusCode: "200"
@@ -2309,9 +2410,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}/subtypes"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/semantics/semantic-types/{identifier}/subtypes"
         responses:
           default:
             statusCode: "200"
@@ -2320,12 +2421,51 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
+  /celltypes/{ids}:
+    get:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/celltypes/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
   /field-types-info:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-types-info"
         responses:
           default:
             statusCode: "200"
@@ -2334,9 +2474,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-types-info"
         responses:
           default:
             statusCode: "200"
@@ -2346,9 +2486,9 @@ paths:
   /assayclasses:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/assayclasses"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/assayclasses"
         responses:
           default:
             statusCode: "200"
@@ -2357,51 +2497,12 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
         uri: "http://${stageVariables.VPCNLB}/assayclasses"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
-  /genes/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/genes/{id}"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/genes/{id}"
         responses:
           default:
             statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
@@ -2412,9 +2513,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/status"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/status"
         responses:
           default:
             statusCode: "200"
@@ -2427,9 +2528,9 @@ paths:
           description: "200 response"
           content: {}
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/status"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/status"
         responses:
           default:
             statusCode: "200"
@@ -2439,9 +2540,9 @@ paths:
   /proteins-info:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/proteins-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/proteins-info"
         responses:
           default:
             statusCode: "200"
@@ -2450,9 +2551,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/proteins-info"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/proteins-info"
         responses:
           default:
             statusCode: "200"
@@ -2462,9 +2563,9 @@ paths:
   /field-types:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-types"
         responses:
           default:
             statusCode: "200"
@@ -2473,9 +2574,9 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-types"
         responses:
           default:
             statusCode: "200"
@@ -2485,9 +2586,9 @@ paths:
   /sources:
     get:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sources"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/sources"
         responses:
           default:
             statusCode: "200"
@@ -2496,12 +2597,51 @@ paths:
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sources"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/sources"
         responses:
           default:
             statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+  /annotations/{ids}:
+    get:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/annotations/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "ids"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/annotations/{ids}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.ids: "method.request.path.ids"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         type: "http_proxy"
@@ -2514,9 +2654,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-schemas/{name}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
-        uri: "http://${stageVariables.VPCNLB}/field-schemas/{name}"
         responses:
           default:
             statusCode: "200"
@@ -2533,9 +2673,9 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/field-schemas/{name}"
         connectionId: "field-schemas${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
-        uri: "http://${stageVariables.VPCNLB}/field-schemas/{name}"
         responses:
           default:
             statusCode: "200"
