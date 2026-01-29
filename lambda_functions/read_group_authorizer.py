@@ -73,7 +73,7 @@ def lambda_handler(event, context):
         
         try:
             # Check if using modified version of the globus app secret as internal token
-            if is_secrect_token(token):
+            if is_secret_token(token):
                 effect = 'Allow'
             else:
                 user_info_dict = get_user_info(token)
@@ -144,15 +144,15 @@ Returns
 bool
     True if the given token is the secret internal token, otherwise False
 """
-def is_secrect_token(token):
+def is_secret_token(token):
     result = False
     
-    secrect_token = auth_helper_instance.getProcessSecret()
+    secret_token = auth_helper_instance.getProcessSecret()
 
-    if token == secrect_token:
+    if token == secret_token:
         result = True
 
-    logger.debug(f'=======is_secrect_token() result=======: {result}')
+    logger.debug(f'=======is_secret_token() result=======: {result}')
     
     return result
 
@@ -163,7 +163,7 @@ User info introspection based on the given globus token
 Parameters
 ----------
 token : str
-    The parased globus token
+    The parsed globus token
 
 Returns
 -------

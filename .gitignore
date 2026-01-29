@@ -1,0 +1,25 @@
+# Ignore generated files to be used in
+# AWS Layer for Lambda Functions
+lambda_layer/python????????????.??.zip
+
+# __pycache__ files in any directory
+**/__pycache__
+
+#ignore eclipse files
+.project
+.pydevproject
+
+#ignore PyCharm files
+.idea/
+../.idea/
+venv
+.venv
+
+# Emacs backup file
+*~
+
+#Mac DS Store files
+.DS_Store
+
+#ignore test venv
+**/testenv/
