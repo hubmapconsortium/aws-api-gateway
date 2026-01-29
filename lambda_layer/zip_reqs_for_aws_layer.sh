@@ -41,3 +41,5 @@ TZ=UTC zip -r9X ${SCRIPT_DIR}/python${TOUCH_TIME}.zip python \
   -x "*.pyc" "__pycache__/*"
 
 echo "Done creating ${SCRIPT_DIR}/python${TOUCH_TIME}.zip"
+echo "After evaluation, move python${TOUCH_TIME}.zip to python.zip for"
+echo "commiting to Git and deployment in AWS Lambda."

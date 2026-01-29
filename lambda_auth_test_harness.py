@@ -1,5 +1,7 @@
 """
-Test the lambda_functions authorizers, with good and bad tokens.
+Test the lambda_functions authorizers, with good and bad tokens, using mock
+Lambda context for the workflow at
+https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
 
 Run this file directly in PyCharm to debug the authorizer
 outside of AWS.
@@ -57,6 +59,8 @@ def run_authorizer(module_name: str, event: dict):
 
     context = MockLambdaContext(function_name=module_name)
 
+    # The result should match the output of an AWS Gateway Lambda authorizer, as shown at
+    # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html
     result = handler(event, context)
 
     # print(f"\nResult:\n{json.dumps(result, indent=2)}")
