@@ -16,14 +16,14 @@ REQS_INSTALL_DIR=../.venv/lib/python3.13/site-packages
 # Save the location of this script, which is where the archive file will be placed.
 SCRIPT_DIR="$(pwd)"
 
-# Grab a consistent time step to be used on files placed in the archive file
+# Grab a consistent time stamp to be used on files placed in the archive file
 TOUCH_TIME=$(date --utc +%Y%m%d%H%M.%S)
 echo "Executing ${0} to create"
 echo "${SCRIPT_DIR}/${ARCHIVE_BASENAME}${TOUCH_TIME}.zip using the content"
 echo "of ${REQS_INSTALL_DIR}"
 
 # Create a directory and rsync everything there, just so we can get a
-# "${ARCHIVE_BASENAME}" prefix on each archive entry with a primitive copy of
+# "${ARCHIVE_BASENAME}" prefix on each archive entry with a primitive version of
 # zip (the one Linux likes from 2008.)
 if [[ -d "/tmp/$(whoami)/${ARCHIVE_BASENAME}${TOUCH_TIME}/${ARCHIVE_BASENAME}" ]]; then
   echo "/tmp/$(whoami)/${ARCHIVE_BASENAME}${TOUCH_TIME}/${ARCHIVE_BASENAME} already exists, giving up."
