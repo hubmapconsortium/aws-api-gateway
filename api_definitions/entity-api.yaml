@@ -3,7 +3,7 @@ info:
   title: "entity-api"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.5.12"
+  version: "2.6.12"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -20,6 +20,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/prov-metadata:
     get:
@@ -40,6 +41,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -59,6 +61,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /doi/redirect/{id}:
     get:
@@ -89,6 +92,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -108,6 +112,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/revisions:
     get:
@@ -128,6 +133,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -147,6 +153,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/revisions:
     get:
@@ -199,6 +206,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -218,6 +226,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /ancestors/{id}:
     get:
@@ -264,6 +273,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -283,6 +293,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}:
     get:
@@ -304,6 +315,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     put:
       parameters:
@@ -326,6 +338,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     post:
       parameters:
@@ -348,6 +361,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -367,6 +381,32 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/batch-ids:
+    post:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/batch-ids"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/batch-ids"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/dataset/globus-url/{id}:
     get:
@@ -387,6 +427,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -406,6 +447,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/components:
     post:
@@ -424,6 +466,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       responses:
@@ -439,6 +482,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /descendants/{id}:
     get:
@@ -487,6 +531,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -506,6 +551,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/tuplets:
     get:
@@ -526,6 +572,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -545,6 +592,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /previous_revisions/{id}:
     get:
@@ -567,6 +615,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -586,6 +635,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /documents/{id}:
     get:
@@ -607,6 +657,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -626,6 +677,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /collection/redirect/{id}:
     get:
@@ -646,6 +698,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -665,6 +718,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /uploads:
     put:
@@ -677,6 +731,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -688,6 +743,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/collections:
     get:
@@ -708,6 +764,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -727,6 +784,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/type/{type_a}/instanceof/{type_b}:
     get:
@@ -757,6 +815,7 @@ paths:
           integration.request.path.type_a: "method.request.path.type_a"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -786,6 +845,7 @@ paths:
           integration.request.path.type_a: "method.request.path.type_a"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /children/{id}:
     get:
@@ -809,6 +869,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -828,6 +889,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /redirect/{id}:
     get:
@@ -848,6 +910,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -867,6 +930,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/donors:
     get:
@@ -887,6 +951,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -906,6 +971,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /parents/{id}:
     get:
@@ -952,6 +1018,7 @@ paths:
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -971,6 +1038,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/multiple-samples/{count}:
     post:
@@ -1015,6 +1083,7 @@ paths:
           integration.request.path.count: "method.request.path.count"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1034,6 +1103,7 @@ paths:
           integration.request.path.count: "method.request.path.count"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /{proxy+}:
     x-amazon-apigateway-any-method:
@@ -1051,6 +1121,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         cacheNamespace: "210fkp"
+        responseTransferMode: "BUFFERED"
         cacheKeyParameters:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
@@ -1074,6 +1145,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1093,6 +1165,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /usergroups:
     get:
@@ -1107,6 +1180,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/provenance:
     get:
@@ -1127,6 +1201,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1146,6 +1221,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /next_revisions/{id}:
     get:
@@ -1168,6 +1244,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1187,6 +1264,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets:
     put:
@@ -1199,6 +1277,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1210,6 +1289,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/unpublished:
     get:
@@ -1224,6 +1304,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1235,6 +1316,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/siblings:
     get:
@@ -1255,6 +1337,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1274,6 +1357,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/prov-info:
     get:
@@ -1294,6 +1378,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1313,6 +1398,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /:
     get:
@@ -1325,6 +1411,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1336,6 +1423,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     x-amazon-apigateway-any-method:
       x-amazon-apigateway-integration:
@@ -1345,6 +1433,7 @@ paths:
           default:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
   /entities/{param}/uploads:
@@ -1366,6 +1455,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1385,6 +1475,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /status:
     get:
@@ -1397,6 +1488,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1408,6 +1500,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/latest-revision:
     get:
@@ -1456,6 +1549,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1475,6 +1569,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/samples:
     get:
@@ -1495,6 +1590,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1514,6 +1610,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /dataset/globus-url/{id}:
     get:
@@ -1534,6 +1631,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1553,6 +1651,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/sankey_data:
     get:
@@ -1565,6 +1664,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1576,6 +1676,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/revision:
     get:
@@ -1621,6 +1722,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1640,6 +1742,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/ancestor-organs:
     get:
@@ -1660,6 +1763,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1679,6 +1783,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entities/{param}/instanceof/{type}:
     get:
@@ -1709,6 +1814,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1738,6 +1844,7 @@ paths:
           integration.request.path.param: "method.request.path.param"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/retract:
     put:
@@ -1791,6 +1898,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1810,6 +1918,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/paired-dataset:
     get:
@@ -1830,6 +1939,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1849,6 +1959,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets/{id}/organs:
     get:
@@ -1869,6 +1980,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
@@ -1888,6 +2000,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /flush-cache/{id}:
     delete:
@@ -1910,6 +2023,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /constraints:
     post:
@@ -1922,6 +2036,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1933,6 +2048,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /entity-types:
     get:
@@ -1964,6 +2080,7 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       x-amazon-apigateway-integration:
@@ -1975,6 +2092,7 @@ paths:
             statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
         type: "http_proxy"
 components:
   schemas:
@@ -2861,19 +2979,19 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  RESOURCE_NOT_FOUND:
-    statusCode: 404
-    responseTemplates:
-      application/json: "{\"message\":$context.error.messageString}"
-  UNAUTHORIZED:
-    statusCode: 401
-    responseTemplates:
-      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
-        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
-        \n}"
   ACCESS_DENIED:
     statusCode: 403
     responseTemplates:
       application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
         : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
         \n}"
+  UNAUTHORIZED:
+    statusCode: 401
+    responseTemplates:
+      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
+        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
+        \n}"
+  RESOURCE_NOT_FOUND:
+    statusCode: 404
+    responseTemplates:
+      application/json: "{\"message\":$context.error.messageString}"
