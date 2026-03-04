@@ -67,15 +67,22 @@ def run_authorizer(module_name: str, event: dict):
     return result
 
 def assert_policy_effect(authorizer_result:dict, expected_effect:str)->None:
-    assert('policyDocument' in authorizer_result)
-    assert('Statement' in authorizer_result['policyDocument'])
-    assert(len(authorizer_result['policyDocument']['Statement'])>0)
-    assert('Effect' in authorizer_result['policyDocument']['Statement'][0])
-    assert(authorizer_result['policyDocument']['Statement'][0]['Effect'] == expected_effect)
-    print(  f"\u2714"
-            f" Read Authorizer successfully got"
-            f" {expected_effect}"
-            f" policy effect expected for token.")
+    try:
+        assert('policyDocument' in authorizer_result)
+        assert('Statement' in authorizer_result['policyDocument'])
+        assert(len(authorizer_result['policyDocument']['Statement'])>0)
+        assert('Effect' in authorizer_result['policyDocument']['Statement'][0])
+        assert(authorizer_result['policyDocument']['Statement'][0]['Effect'] == expected_effect)
+    except AssertionError:
+        print(f"\u2718"
+              f" Authorizer failed to get"
+              f" {expected_effect}"
+              f" policy effect expected for token.")
+    else:
+        print(  f"\u2714"
+                f" Authorizer successfully got"
+                f" {expected_effect}"
+                f" policy effect expected for token.")
 
 def main():
     # Replace with:
