@@ -3,7 +3,7 @@ info:
   title: "entity-api"
   description: "The HuBMAP Entity API is a standard RESTful web service with create,\
     \ update and read operations for the standard HuBMAP provenance graph entities."
-  version: "2.6.12"
+  version: "2.6.17"
 servers:
 - url: "https://entity.api.hubmapconsortium.org"
 paths:
@@ -52,57 +52,6 @@ paths:
           type: "string"
       x-amazon-apigateway-integration:
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-metadata"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /doi/redirect/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "400":
-          description: "400 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-        "307":
-          description: "307 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -217,6 +166,1226 @@ paths:
           type: "string"
       x-amazon-apigateway-integration:
         uri: "http://${stageVariables.VPCNLB}/datasets/{id}/revisions"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /origins-info/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/origins-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/origins-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/{param}/dataset-documents:
+    get:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/dataset-documents"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/dataset-documents"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/dataset/globus-url/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/dataset/globus-url/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /documents/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/documents/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/documents/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /sources-info/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sources-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/sources-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /collection/redirect/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/collection/redirect/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /ancestors-info/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/ancestors-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/ancestors-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/{param}/collections:
+    get:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/type/{type_a}/instanceof/{type_b}:
+    get:
+      parameters:
+      - name: "type_b"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "type_a"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type_b: "method.request.path.type_b"
+          integration.request.path.type_a: "method.request.path.type_a"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "type_b"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "type_a"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type_b: "method.request.path.type_b"
+          integration.request.path.type_a: "method.request.path.type_a"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /children/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/children/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/children/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /parents/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "404":
+          description: "404 response"
+          content: {}
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content: {}
+        "400":
+          description: "400 response"
+          content: {}
+        "401":
+          description: "401 response"
+          content: {}
+        "500":
+          description: "500 response"
+          content: {}
+        "403":
+          description: "403 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/parents/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/parents/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/multiple-samples/{count}:
+    post:
+      parameters:
+      - name: "count"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayOfMODEL72cebd"
+        "400":
+          description: "400 response"
+          content: {}
+        "401":
+          description: "401 response"
+          content: {}
+        "500":
+          description: "500 response"
+          content: {}
+      security:
+      - HuBMAP-API-Gateway-Create-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/multiple-samples/{count}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.count: "method.request.path.count"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "count"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/multiple-samples/{count}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.count: "method.request.path.count"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /{proxy+}:
+    x-amazon-apigateway-any-method:
+      parameters:
+      - name: "proxy"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        cacheNamespace: "210fkp"
+        responseTransferMode: "BUFFERED"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /donors-info/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/donors-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/donors-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /descendants-info/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/descendants-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/descendants-info/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /usergroups:
+    get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/usergroups"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/{param}/provenance:
+    get:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /next_revisions/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /datasets/unpublished:
+    get:
+      security:
+      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /datasets/{id}/prov-info:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /:
+    get:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    x-amazon-apigateway-any-method:
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /dataset/globus-url/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset/globus-url/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /datasets/sankey_data:
+    get:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entities/{param}/instanceof/{type}:
+    get:
+      parameters:
+      - name: "type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type: "method.request.path.type"
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "type"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "param"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.type: "method.request.path.type"
+          integration.request.path.param: "method.request.path.param"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /datasets/{id}/retract:
+    put:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MODEL3ebf60"
+        required: true
+      responses:
+        "404":
+          description: "404 response"
+          content: {}
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content: {}
+        "400":
+          description: "400 response"
+          content: {}
+        "401":
+          description: "401 response"
+          content: {}
+        "500":
+          description: "500 response"
+          content: {}
+        "403":
+          description: "403 response"
+          content: {}
+      security:
+      - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "PUT"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /datasets/{id}/paired-dataset:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /entity-types:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content: {}
+        "401":
+          description: "401 response"
+          content: {}
+        "500":
+          description: "500 response"
+          content: {}
+        "403":
+          description: "403 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entity-types"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/entity-types"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /doi/redirect/{id}:
+    get:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "400 response"
+          content: {}
+        "500":
+          description: "500 response"
+          content: {}
+        "307":
+          description: "307 response"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.id: "method.request.path.id"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -404,47 +1573,6 @@ paths:
         responses:
           default:
             statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /entities/dataset/globus-url/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/dataset/globus-url/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -637,89 +1765,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /documents/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/documents/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        timeoutInMillis: 60000
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/documents/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /collection/redirect/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/doi/redirect/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/collection/redirect/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /uploads:
     put:
       x-amazon-apigateway-integration:
@@ -745,109 +1790,7 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /entities/{param}/collections:
-    get:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/collections"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /entities/type/{type_a}/instanceof/{type_b}:
-    get:
-      parameters:
-      - name: "type_b"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "type_a"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.type_b: "method.request.path.type_b"
-          integration.request.path.type_a: "method.request.path.type_a"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "type_b"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "type_a"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/type/{type_a}/instanceof/{type_b}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.type_b: "method.request.path.type_b"
-          integration.request.path.type_a: "method.request.path.type_a"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /children/{id}:
+  /parents-info/{id}:
     get:
       parameters:
       - name: "id"
@@ -855,10 +1798,8 @@ paths:
         required: true
         schema:
           type: "string"
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/children/{id}"
+        uri: "http://${stageVariables.VPCNLB}/parents-info/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         responses:
@@ -879,7 +1820,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/children/{id}"
+        uri: "http://${stageVariables.VPCNLB}/parents-info/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -889,6 +1830,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /redirect/{id}:
@@ -973,159 +1915,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /parents/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "404":
-          description: "404 response"
-          content: {}
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-          content: {}
-        "400":
-          description: "400 response"
-          content: {}
-        "401":
-          description: "401 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-        "403":
-          description: "403 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/parents/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        timeoutInMillis: 60000
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/parents/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /entities/multiple-samples/{count}:
-    post:
-      parameters:
-      - name: "count"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArrayOfMODEL72cebd"
-        "400":
-          description: "400 response"
-          content: {}
-        "401":
-          description: "401 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-      security:
-      - HuBMAP-API-Gateway-Create-Group-Authorizer: []
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/multiple-samples/{count}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "POST"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.path.count: "method.request.path.count"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "count"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/multiple-samples/{count}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.count: "method.request.path.count"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /{proxy+}:
-    x-amazon-apigateway-any-method:
-      parameters:
-      - name: "proxy"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
-        httpMethod: "POST"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        cacheNamespace: "210fkp"
-        responseTransferMode: "BUFFERED"
-        cacheKeyParameters:
-        - "method.request.path.proxy"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
   /entities/{param}/globus-url:
     get:
       parameters:
@@ -1167,63 +1956,7 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /usergroups:
-    get:
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/usergroups"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /entities/{param}/provenance:
-    get:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/provenance"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /next_revisions/{id}:
+  /children-info/{id}:
     get:
       parameters:
       - name: "id"
@@ -1231,10 +1964,8 @@ paths:
         required: true
         schema:
           type: "string"
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
+        uri: "http://${stageVariables.VPCNLB}/children-info/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         responses:
@@ -1244,6 +1975,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
@@ -1254,7 +1986,7 @@ paths:
         schema:
           type: "string"
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/next_revisions/{id}"
+        uri: "http://${stageVariables.VPCNLB}/children-info/{id}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -1264,6 +1996,7 @@ paths:
           integration.request.path.id: "method.request.path.id"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
+        timeoutInMillis: 60000
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
   /datasets:
@@ -1282,33 +2015,6 @@ paths:
     options:
       x-amazon-apigateway-integration:
         uri: "http://${stageVariables.VPCNLB}/datasets"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /datasets/unpublished:
-    get:
-      security:
-      - HuBMAP-API-Gateway-Read-Group-Authorizer: []
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/unpublished"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -1359,83 +2065,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /datasets/{id}/prov-info:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/prov-info"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /:
-    get:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    x-amazon-apigateway-any-method:
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:450834107946:function:HuBMAP-API-Gateway-404/invocations"
-        httpMethod: "POST"
-        responses:
-          default:
-            statusCode: "200"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws_proxy"
   /entities/{param}/uploads:
     get:
       parameters:
@@ -1612,72 +2241,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /dataset/globus-url/{id}:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{id}/globus-url"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset/globus-url/{id}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /datasets/sankey_data:
-    get:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/sankey_data"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /datasets/{id}/revision:
     get:
       parameters:
@@ -1785,182 +2348,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /entities/{param}/instanceof/{type}:
-    get:
-      parameters:
-      - name: "type"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.type: "method.request.path.type"
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "type"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "param"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "200":
-          description: "200 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entities/{param}/instanceof/{type}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.type: "method.request.path.type"
-          integration.request.path.param: "method.request.path.param"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /datasets/{id}/retract:
-    put:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MODEL3ebf60"
-        required: true
-      responses:
-        "404":
-          description: "404 response"
-          content: {}
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-          content: {}
-        "400":
-          description: "400 response"
-          content: {}
-        "401":
-          description: "401 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-        "403":
-          description: "403 response"
-          content: {}
-      security:
-      - HuBMAP-API-Gateway-Data-Admin-Group-Authorizer: []
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "PUT"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/retract"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /datasets/{id}/paired-dataset:
-    get:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/datasets/{id}/paired-dataset"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /datasets/{id}/organs:
     get:
       parameters:
@@ -2041,50 +2428,6 @@ paths:
     options:
       x-amazon-apigateway-integration:
         uri: "http://${stageVariables.VPCNLB}/constraints"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /entity-types:
-    get:
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-          content: {}
-        "401":
-          description: "401 response"
-          content: {}
-        "500":
-          description: "500 response"
-          content: {}
-        "403":
-          description: "403 response"
-          content: {}
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entity-types"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/entity-types"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
@@ -2979,12 +3322,6 @@ components:
         authorizerResultTtlInSeconds: 0
         type: "token"
 x-amazon-apigateway-gateway-responses:
-  ACCESS_DENIED:
-    statusCode: 403
-    responseTemplates:
-      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
-        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
-        \n}"
   UNAUTHORIZED:
     statusCode: 401
     responseTemplates:
@@ -2995,3 +3332,9 @@ x-amazon-apigateway-gateway-responses:
     statusCode: 404
     responseTemplates:
       application/json: "{\"message\":$context.error.messageString}"
+  ACCESS_DENIED:
+    statusCode: 403
+    responseTemplates:
+      application/json: "{\n  \"message\": \"$context.error.message\",\n  \"hint\"\
+        : \"$context.authorizer.key\",\n  \"http_method\": \"$context.httpMethod\"\
+        \n}"
