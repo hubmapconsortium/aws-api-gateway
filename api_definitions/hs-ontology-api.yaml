@@ -8,7 +8,7 @@ info:
     \ to a maximum execution time of 15 seconds and a maximum payload of 9 MB."
   version: "2.2.23"
 servers:
-- url: "https://ontology-api.dev.hubmapconsortium.org"
+- url: "https://ontology.api.hubmapconsortium.org"
 paths:
   /property-types:
     get:
@@ -167,47 +167,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /modalities/{modality_code}:
-    get:
-      parameters:
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /genes-info:
     get:
       x-amazon-apigateway-integration:
@@ -229,59 +188,6 @@ paths:
         responses:
           default:
             statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /modalities/{modality_code}/{dataset_type_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -981,59 +887,6 @@ paths:
         - "method.request.path.proxy"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
-  /dataset-types/{dataset_type_code}/{modality_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /concepts/paths/subgraph/sequential:
     get:
       x-amazon-apigateway-integration:
@@ -1084,43 +937,67 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /analytes/{analyte_code}:
+  /hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}:
     get:
       parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
       - name: "analyte_code"
         in: "path"
         required: true
         schema:
           type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}"
+        uri: "http://${stageVariables.VPCNLB}/hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "GET"
         responses:
           default:
             statusCode: "200"
         requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
           integration.request.path.analyte_code: "method.request.path.analyte_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
     options:
       parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
       - name: "analyte_code"
         in: "path"
         required: true
         schema:
           type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
       x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}"
+        uri: "http://${stageVariables.VPCNLB}/hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}"
         connectionId: "${stageVariables.VPCLINK}"
         httpMethod: "OPTIONS"
         responses:
           default:
             statusCode: "200"
         requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
           integration.request.path.analyte_code: "method.request.path.analyte_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -1191,47 +1068,6 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.identifier: "method.request.path.identifier"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /dataset-types/{dataset_type_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -1469,71 +1305,6 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.node_type: "method.request.path.node_type"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /dataset-types/{dataset_type_code}/{modality_code}/{analyte_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}/{modality_code}/{analyte_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/dataset-types/{dataset_type_code}/{modality_code}/{analyte_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -1926,6 +1697,59 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
+  /dataset-types/hierarchy/{dataset_type_code}/{modality_code}:
+    get:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}/{modality_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}/{modality_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
   /database/server:
     get:
       operationId: "database_info_server_get"
@@ -2249,31 +2073,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /modalities:
-    get:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /terms/{term_id}/concepts:
     get:
       operationId: "terms_term_id_concepts_get"
@@ -2476,31 +2275,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /analytes:
-    get:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /sabs/{sab}/term-types:
     get:
       operationId: "sabs_term_types_sab_get"
@@ -2567,6 +2341,71 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.sab: "method.request.path.sab"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /dataset-types/hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}:
+    get:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "analyte_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
+          integration.request.path.analyte_code: "method.request.path.analyte_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "analyte_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      - name: "modality_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}/{modality_code}/{analyte_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.modality_code: "method.request.path.modality_code"
+          integration.request.path.analyte_code: "method.request.path.analyte_code"
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -2723,6 +2562,47 @@ paths:
         responses:
           default:
             statusCode: "200"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+  /dataset-types/hierarchy/{dataset_type_code}:
+    get:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "GET"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
+        connectionType: "VPC_LINK"
+        passthroughBehavior: "when_no_match"
+        responseTransferMode: "BUFFERED"
+        type: "http_proxy"
+    options:
+      parameters:
+      - name: "dataset_type_code"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      x-amazon-apigateway-integration:
+        uri: "http://${stageVariables.VPCNLB}/dataset-types/hierarchy/{dataset_type_code}"
+        connectionId: "${stageVariables.VPCLINK}"
+        httpMethod: "OPTIONS"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
@@ -2952,71 +2832,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /modalities/{modality_code}/{dataset_type_code}/{analyte_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}/{dataset_type_code}/{analyte_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/modalities/{modality_code}/{dataset_type_code}/{analyte_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /celltypes/{ids}:
     get:
       parameters:
@@ -3141,59 +2956,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /analytes/{analyte_code}/{modality_code}:
-    get:
-      parameters:
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}/{modality_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /proteins-info:
     get:
       x-amazon-apigateway-integration:
@@ -3215,71 +2977,6 @@ paths:
         responses:
           default:
             statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /analytes/{analyte_code}/{modality_code}/{dataset_type_code}:
-    get:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}/{modality_code}/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "dataset_type_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "analyte_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      - name: "modality_code"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/analytes/{analyte_code}/{modality_code}/{dataset_type_code}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.modality_code: "method.request.path.modality_code"
-          integration.request.path.analyte_code: "method.request.path.analyte_code"
-          integration.request.path.dataset_type_code: "method.request.path.dataset_type_code"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
