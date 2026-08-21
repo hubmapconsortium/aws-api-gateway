@@ -6,7 +6,7 @@ info:
     \ To prevent exceeding service timeouts or payload limits, some endpoints are\
     \ throttled in both execution time and in the size of its response payload--e.g.,\
     \ to a maximum execution time of 15 seconds and a maximum payload of 9 MB."
-  version: "2.2.23"
+  version: "2.2.28"
 servers:
 - url: "https://ontology.api.hubmapconsortium.org"
 paths:
@@ -1144,47 +1144,6 @@ paths:
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
         type: "http_proxy"
-  /field-entities/{name}:
-    get:
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.name: "method.request.path.name"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/field-entities/{name}"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
-        requestParameters:
-          integration.request.path.name: "method.request.path.name"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
   /node-types/{node_type}/counts:
     get:
       operationId: "node_type_id_count_get"
@@ -1913,31 +1872,6 @@ paths:
             statusCode: "200"
         requestParameters:
           integration.request.path.id: "method.request.path.id"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-  /field-entities:
-    get:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/field-entities"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "GET"
-        responses:
-          default:
-            statusCode: "200"
-        connectionType: "VPC_LINK"
-        passthroughBehavior: "when_no_match"
-        responseTransferMode: "BUFFERED"
-        type: "http_proxy"
-    options:
-      x-amazon-apigateway-integration:
-        uri: "http://${stageVariables.VPCNLB}/field-entities"
-        connectionId: "${stageVariables.VPCLINK}"
-        httpMethod: "OPTIONS"
-        responses:
-          default:
-            statusCode: "200"
         connectionType: "VPC_LINK"
         passthroughBehavior: "when_no_match"
         responseTransferMode: "BUFFERED"
