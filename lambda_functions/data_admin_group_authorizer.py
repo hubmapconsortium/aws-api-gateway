@@ -39,6 +39,11 @@ def lambda_handler(event, context):
     
     # Default policy effect
     effect = 'Deny'
+
+    user_sub = None
+    user_email = None
+    user_name = None
+    user_username = None
     
     # The string value of $context.authorizer.key used by API Gateway reponse 401/403 template:
     # { "message": "$context.error.message", "hint": "$context.authorizer.key" }
@@ -84,7 +89,10 @@ def lambda_handler(event, context):
                 # Otherwise it's a dict on success
                 if isinstance(user_info_dict, dict):
                     principal_id = user_info_dict['sub']
-                    
+                    user_sub = user_info_dict['sub']
+                    user_email = user_info_dict.get('email')
+                    user_name = user_info_dict.get('name')
+                    user_username = user_info_dict.get('username')
                     # Further check if the user belongs to the right group membership
                     user_group_ids = user_info_dict['group_membership_ids']
       
@@ -109,20 +117,19 @@ def lambda_handler(event, context):
     
     logger.debug(f'=======context_authorizer_key_value=======: {context_authorizer_key_value}')
     
-    # Only use the context variable for authorizer when there's 401/403 response
-    if context_authorizer_key_value:
-        # Add additional key-value pairs associated with the authenticated principal
-        # these are made available by API Gateway Responses template with custom 401 and 403 template:
-        # { "message": "$context.error.message", "hint": "$context.authorizer.key" } (must be quoted to be valid json object)
-        context = {
-            'key': context_authorizer_key_value, # $context.authorizer.key -> value
-            # numberKey and boolKey are not being used currently
-            'numberKey' : 1,
-            'boolKey' : True
-        }
+    context = {
+        'user_sub': user_sub,
+        'user_email': user_email,
+        'user_name': user_name,
+        'user_username': user_username,
+    }
 
-        # Add the context info to the policy
-        authResponse['context'] = context
+    if context_authorizer_key_value:
+        context['key'] = context_authorizer_key_value
+        context['numberKey'] = 1
+        context['boolKey'] = True
+
+    authResponse['context'] = context
         
     logger.debug(f'=======authResponse: {authResponse}')
    
